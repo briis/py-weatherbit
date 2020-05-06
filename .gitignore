@@ -128,3 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 py-weatherbit.code-workspace
+data/forecast.json
+data/alerts.json
+data/current.json
