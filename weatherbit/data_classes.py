@@ -162,7 +162,7 @@ class ForecastData:
         self._wind_cdir = data["wind_cdir"]
         self._wind_dir = data["wind_dir"]
         self._dewpt = data["dewpt"]
-        self._pod = data["pod"]
+        self._pop = data["pop"]
         self._weather_icon = data["weather_icon"]
         self._weather_code = data["weather_code"]
         self._weather_text = data["weather_text"]
@@ -254,9 +254,9 @@ class ForecastData:
         return self._dewpt
 
     @property
-    def pod(self):
-        """Part of the day (d = day / n = night)."""
-        return self._pod
+    def pop(self):
+        """Probability of Precipitation (%)."""
+        return self._pop
 
     @property
     def weather_icon(self):

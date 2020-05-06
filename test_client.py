@@ -26,12 +26,12 @@ async def main() -> None:
 
     try:
         _LOGGER.info("GETTING CURRENT DATA:")
-        data = await wbit.async_update_current_data()
-        for row in data:
-            _LOGGER.info(f"{row.city_name} - {row.ob_time} - {row.weather_text} - {row.timezone}")
+        # data = await wbit.async_get_current_data()
+        # for row in data:
+        #     _LOGGER.info(f"{row.city_name} - {row.ob_time} - {row.weather_text} - {row.timezone}")
 
         _LOGGER.info("GETTING FORECAST DATA:")
-        data = await wbit.async_forecast_data()
+        data = await wbit.async_get_forecast_data()
         for row in data:
             _LOGGER.info(f"{row.city_name} - {row.valid_date} - {row.weather_text} - {row.max_temp}")
 

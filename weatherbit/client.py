@@ -38,10 +38,10 @@ class Api:
         self._session: ClientSession = session
         self.req = session
 
-    async def async_update_current_data(self) -> None:
+    async def async_get_current_data(self) -> None:
         return await self._get_current_data()
 
-    async def async_forecast_data(self) -> None:
+    async def async_get_forecast_data(self) -> None:
         return await self._get_forecast_data()
 
     async def _get_current_data(self) -> None:
@@ -86,36 +86,38 @@ class Api:
 
         endpoint = f"forecast/daily?lat={self._latitude}&lon={self._longitude}&lang={self._language}&units={self._units}&key={self._api_key}"
         json_data = await self.async_request("get", endpoint)
-
+        
         items = []
 
-        for row in json_data:
+        city_name = json_data["city_name"]
+        timezone = json_data["timezone"]
+        for row in json_data["data"]:
             item = {
-                "timezone": row["timezone"],
-                "city_name": row["city_name"],
-                "valid_date": row["data"]["valid_date"],
-                "temp": row["data"]["temp"],
-                "max_temp": row["data"]["max_temp"],
-                "min_temp": row["data"]["min_temp"],
-                "app_max_temp": row["data"]["app_max_temp"],
-                "app_min_temp": row["data"]["app_min_temp"],
-                "rh": row["data"]["rh"],
-                "pres": row["data"]["pres"],
-                "clouds": row["data"]["clouds"],
-                "wind_spd": row["data"]["wind_spd"],
-                "wind_gust_spd": row["data"]["wind_gust_spd"],
-                "wind_cdir": row["data"]["wind_cdir"],
-                "wind_dir": row["data"]["wind_dir"],
-                "dewpt": row["data"]["dewpt"],
-                "pod": row["data"]["pod"],
-                "weather_icon": row["data"]["weather"]["icon"],
-                "weather_code": row["data"]["weather"]["code"],
-                "weather_text": row["data"]["weather"]["description"],
-                "vis": row["data"]["vis"],
-                "precip": row["data"]["precip"],
-                "snow": row["data"]["snow"],
-                "uv": row["data"]["uv"],
-                "ozone": row["data"]["ozone"],
+                "city_name": city_name,
+                "timezone": timezone,
+                "valid_date": row["valid_date"],
+                "temp": row["temp"],
+                "max_temp": row["max_temp"],
+                "min_temp": row["min_temp"],
+                "app_max_temp": row["app_max_temp"],
+                "app_min_temp": row["app_min_temp"],
+                "rh": row["rh"],
+                "pres": row["pres"],
+                "clouds": row["clouds"],
+                "wind_spd": row["wind_spd"],
+                "wind_gust_spd": row["wind_gust_spd"],
+                "wind_cdir": row["wind_cdir"],
+                "wind_dir": row["wind_dir"],
+                "dewpt": row["dewpt"],
+                "pop": row["pop"],
+                "weather_icon": row["weather"]["icon"],
+                "weather_code": row["weather"]["code"],
+                "weather_text": row["weather"]["description"],
+                "vis": row["vis"],
+                "precip": row["precip"],
+                "snow": row["snow"],
+                "uv": row["uv"],
+                "ozone": row["ozone"],
             }
             items.append(ForecastData(item))
 
