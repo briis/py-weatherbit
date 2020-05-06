@@ -13,7 +13,7 @@ from weatherbit.const import (
 )
 from weatherbit.data_classes import (
     CurrentData,
-    ForecastData,
+    ForecastDailyData,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -41,8 +41,11 @@ class Api:
     async def async_get_current_data(self) -> None:
         return await self._get_current_data()
 
-    async def async_get_forecast_data(self) -> None:
-        return await self._get_forecast_data()
+    async def async_get_forecast_daily(self) -> None:
+        return await self._get_forecast_daily()
+
+    async def async_get_forecast_hourly(self) -> None:
+        return await self._get_forecast_hourly()
 
     async def _get_current_data(self) -> None:
         """Return Current Data for Location."""
@@ -81,8 +84,8 @@ class Api:
 
         return items
 
-    async def _get_forecast_data(self) -> None:
-        """Return Forecast Data for Location."""
+    async def _get_forecast_daily(self) -> None:
+        """Return Daily Forecast Data for Location."""
 
         endpoint = f"forecast/daily?lat={self._latitude}&lon={self._longitude}&lang={self._language}&units={self._units}&key={self._api_key}"
         json_data = await self.async_request("get", endpoint)
@@ -119,7 +122,48 @@ class Api:
                 "uv": row["uv"],
                 "ozone": row["ozone"],
             }
-            items.append(ForecastData(item))
+            items.append(ForecastDailyData(item))
+
+        return items
+
+
+    async def _get_forecast_hourly(self) -> None:
+        """Return 48 Hourly Forecast Data for Location."""
+
+        endpoint = f"forecast/hourly?lat={self._latitude}&lon={self._longitude}&lang={self._language}&units={self._units}&hours=48&key={self._api_key}"
+        json_data = await self.async_request("get", endpoint)
+        
+        items = []
+
+        city_name = json_data["city_name"]
+        timezone = json_data["timezone"]
+        for row in json_data["data"]:
+            item = {
+                "city_name": city_name,
+                "timezone": timezone,
+                "timestamp": row["timestamp_local"],
+                "temp": row["temp"],
+                "app_temp": row["app_temp"],
+                "rh": row["rh"],
+                "pres": row["pres"],
+                "clouds": row["clouds"],
+                "wind_spd": row["wind_spd"],
+                "wind_gust_spd": row["wind_gust_spd"],
+                "wind_cdir": row["wind_cdir"],
+                "wind_dir": row["wind_dir"],
+                "dewpt": row["dewpt"],
+                "pop": row["pop"],
+                "weather_icon": row["weather"]["icon"],
+                "weather_code": row["weather"]["code"],
+                "weather_text": row["weather"]["description"],
+                "vis": row["vis"],
+                "precip": row["precip"],
+                "snow": row["snow"],
+                "uv": row["uv"],
+                "ozone": row["ozone"],
+                "solar_rad": row["solar_rad"],
+            }
+            items.append(ForecastDailyData(item))
 
         return items
 
