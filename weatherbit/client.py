@@ -40,6 +40,9 @@ class Api:
     async def async_update_current_data(self) -> None:
         return await self._get_current_data()
 
+    async def async_forecast_data(self) -> None:
+        return await self._get_forecast_data()
+
     async def _get_current_data(self) -> None:
         """Return Current Data for Location."""
 
@@ -76,6 +79,15 @@ class Api:
             items.append(CurrentData(item))
 
         return items
+
+    async def _get_forecast_data(self) -> None:
+        """Return Forecast Data for Location."""
+
+        endpoint = f"forecast/daily?lat={self._latitude}&lon={self._longitude}&lang={self._language}&units={self._units}&key={self._api_key}"
+        json_data = await self.async_request("get", endpoint)
+
+        items = []
+        
 
     async def async_request(self, method: str, endpoint: str) -> dict:
         """Make a request against the Weatherbit API."""
