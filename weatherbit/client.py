@@ -11,6 +11,9 @@ from weatherbit.const import (
     BASE_URL,
     DEFAULT_TIMEOUT,
 )
+from weatherbit.data_classes import (
+    CurrentData,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -42,7 +45,37 @@ class Api:
 
         endpoint = f"current?lat={self._latitude}&lon={self._longitude}&lang={self._language}&units={self._units}&key={self._api_key}"
         json_data = await self.async_request("get", endpoint)
-        return json_data
+
+        items = []
+        for row in json_data["data"]:
+            item = {
+                "station": row["station"],
+                "ob_time": row["ob_time"],
+                "temp": row["temp"],
+                "city_name": row["city_name"],
+                "app_temp": row["app_temp"],
+                "rh": row["rh"],
+                "pres": row["pres"],
+                "clouds": row["clouds"],
+                "solar_rad": row["solar_rad"],
+                "wind_spd": row["wind_spd"],
+                "wind_cdir": row["wind_cdir"],
+                "wind_dir": row["wind_dir"],
+                "dewpt": row["dewpt"],
+                "pod": row["pod"],
+                "weather_icon": row["weather"]["icon"],
+                "weather_code": row["weather"]["code"],
+                "weather_text": row["weather"]["description"],
+                "vis": row["vis"],
+                "precip": row["precip"],
+                "snow": row["snow"],
+                "uv": row["uv"],
+                "aqi": row["aqi"],
+                "timezone": row["timezone"],
+            }
+            items.append(CurrentData(item))
+
+        return items
 
     async def async_request(self, method: str, endpoint: str) -> dict:
         """Make a request against the Weatherbit API."""

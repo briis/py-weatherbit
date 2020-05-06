@@ -25,10 +25,11 @@ async def main() -> None:
     start = time.time()
 
     try:
-        # Login:
         _LOGGER.info("GETTING CURRENT DATA:")
-        _LOGGER.info(await wbit.async_update_current_data())
-        
+        data = await wbit.async_update_current_data()
+        for row in data:
+            _LOGGER.info(f"{row.city_name} - {row.ob_time} - {row.weather_text} - {row.timezone}")
+
     except WeatherbitError as err:
         _LOGGER.info(err)
 
