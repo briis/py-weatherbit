@@ -14,6 +14,7 @@ from weatherbit.const import (
 from weatherbit.data_classes import (
     CurrentData,
     ForecastDailyData,
+    ForecastHourlyData,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -128,9 +129,11 @@ class Api:
 
 
     async def _get_forecast_hourly(self) -> None:
-        """Return 48 Hourly Forecast Data for Location."""
+        """Return 48 Hourly Forecast Data for Location.
+           Note: This will not work in the Free Version.
+        """
 
-        endpoint = f"forecast/hourly?lat={self._latitude}&lon={self._longitude}&lang={self._language}&units={self._units}&hours=48&key={self._api_key}"
+        endpoint = f"forecast/hourly?lat={self._latitude}&lon={self._longitude}&lang={self._language}&units={self._units}&key={self._api_key}"
         json_data = await self.async_request("get", endpoint)
         
         items = []
@@ -163,7 +166,7 @@ class Api:
                 "ozone": row["ozone"],
                 "solar_rad": row["solar_rad"],
             }
-            items.append(ForecastDailyData(item))
+            items.append(ForecastHourlyData(item))
 
         return items
 

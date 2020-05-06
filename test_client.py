@@ -31,9 +31,14 @@ async def main() -> None:
         #     _LOGGER.info(f"{row.city_name} - {row.ob_time} - {row.weather_text} - {row.timezone}")
 
         _LOGGER.info("GETTING DAILY FORECAST DATA:")
-        data = await wbit.async_get_forecast_daily()
+        # data = await wbit.async_get_forecast_daily()
+        # for row in data:
+        #     _LOGGER.info(f"{row.city_name} - {row.valid_date} - {row.weather_text} - {row.max_temp}")
+
+        _LOGGER.info("GETTING HOURLY FORECAST DATA:")
+        data = await wbit.async_get_forecast_hourly()
         for row in data:
-            _LOGGER.info(f"{row.city_name} - {row.valid_date} - {row.weather_text} - {row.max_temp}")
+            _LOGGER.info(f"{row.city_name} - {row.timestamp} - {row.weather_text} - {row.temp}")
 
     except WeatherbitError as err:
         _LOGGER.info(err)
