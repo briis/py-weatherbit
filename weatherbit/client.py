@@ -13,6 +13,7 @@ from weatherbit.const import (
 )
 from weatherbit.data_classes import (
     CurrentData,
+    ForecastData,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -87,7 +88,38 @@ class Api:
         json_data = await self.async_request("get", endpoint)
 
         items = []
-        
+
+        for row in json_data:
+            item = {
+                "timezone": row["timezone"],
+                "city_name": row["city_name"],
+                "valid_date": row["data"]["valid_date"],
+                "temp": row["data"]["temp"],
+                "max_temp": row["data"]["max_temp"],
+                "min_temp": row["data"]["min_temp"],
+                "app_max_temp": row["data"]["app_max_temp"],
+                "app_min_temp": row["data"]["app_min_temp"],
+                "rh": row["data"]["rh"],
+                "pres": row["data"]["pres"],
+                "clouds": row["data"]["clouds"],
+                "wind_spd": row["data"]["wind_spd"],
+                "wind_gust_spd": row["data"]["wind_gust_spd"],
+                "wind_cdir": row["data"]["wind_cdir"],
+                "wind_dir": row["data"]["wind_dir"],
+                "dewpt": row["data"]["dewpt"],
+                "pod": row["data"]["pod"],
+                "weather_icon": row["data"]["weather"]["icon"],
+                "weather_code": row["data"]["weather"]["code"],
+                "weather_text": row["data"]["weather"]["description"],
+                "vis": row["data"]["vis"],
+                "precip": row["data"]["precip"],
+                "snow": row["data"]["snow"],
+                "uv": row["data"]["uv"],
+                "ozone": row["data"]["ozone"],
+            }
+            items.append(ForecastData(item))
+
+        return items
 
     async def async_request(self, method: str, endpoint: str) -> dict:
         """Make a request against the Weatherbit API."""
