@@ -298,6 +298,64 @@ class ForecastDailyData:
         """Local IANA Timezone."""
         return self._timezone
 
+class WeatherAlerts:
+    """A representation of Severe Weather Alerts."""
+
+    def __init__(self, data):
+        self._city_name = data["city_name"]
+        self._timezone = data["timezone"]
+        self._title = data["title"]
+        self._description = data["description"]
+        self._severity = data["severity"]
+        self._effective_local = data["effective_local"]
+        self._expires_local = data["expires_local"]
+        self._uri = data["uri"]
+        self._regions = data["regions"]
+
+    @property
+    def city_name(self):
+        """Nearest city name."""
+        return self._city_name
+
+    @property
+    def timezone(self):
+        """Local IANA Timezone."""
+        return self._timezone
+
+    @property
+    def title(self):
+        """Brief description of the alert."""
+        return self._title
+
+    @property
+    def description(self):
+        """Detailed description of the alert."""
+        return self._description
+
+    @property
+    def severity(self):
+        """Severity of the weather phenomena - Either Advisory, Watch, or Warning."""
+        return self._severity
+
+    @property
+    def effective_local(self):
+        """Local time that alert was issued."""
+        return self._effective_local
+
+    @property
+    def expires_local(self):
+        """Local time that alert expires."""
+        return self._expires_local
+
+    @property
+    def uri(self):
+        """An HTTP(S) URI that one may refer to for more detailed alert information."""
+        return self._uri
+
+    @property
+    def regions(self):
+        """An array of affected regions."""
+        return self._regions
 
 class ForecastHourlyData:
     """A representation of Hourly Forecast Weather Data."""

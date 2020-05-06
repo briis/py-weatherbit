@@ -15,6 +15,7 @@ from weatherbit.data_classes import (
     CurrentData,
     ForecastDailyData,
     ForecastHourlyData,
+    WeatherAlerts,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -47,6 +48,9 @@ class Api:
 
     async def async_get_forecast_hourly(self) -> None:
         return await self._get_forecast_hourly()
+
+    async def async_get_weather_alerts(self) -> None:
+        return await self._get_weather_alert()
 
     async def _get_current_data(self) -> None:
         """Return Current Data for Location."""
@@ -127,6 +131,46 @@ class Api:
 
         return items
 
+    async def _get_weather_alert(self) -> None:
+        """Return Severe Weather Alerts for Location."""
+
+        endpoint = f"alerts?lat={self._latitude}&lon={self._longitude}&key={self._api_key}"
+        json_data = await self.async_request("get", endpoint)
+
+        items = []
+
+        city_name = json_data["city_name"]
+        timezone = json_data["timezone"]
+
+        if json_data["alerts"] == []:
+            item = {
+                "city_name": city_name,
+                "timezone": timezone,
+                "title": "No Weather Alerts",
+                "description": None,
+                "severity": None,
+                "effective_local": None,
+                "expires_local": None,
+                "uri": None,
+                "regions": [],
+            }
+            items.append(WeatherAlerts(item))
+            return items
+        else:
+            for row in json_data["data"]:
+                item = {
+                    "city_name": city_name,
+                    "timezone": timezone,
+                    "title": row["title"],
+                    "description": row["description"],
+                    "severity": row["severity"],
+                    "effective_local": row["effective_local"],
+                    "expires_local": row["expires_local"],
+                    "uri": row["uri"],
+                    "regions": [],
+                }
+                items.append(WeatherAlerts(item))
+            return items
 
     async def _get_forecast_hourly(self) -> None:
         """Return 48 Hourly Forecast Data for Location.
