@@ -6,7 +6,7 @@ from typing import Optional
 from aiohttp import ClientSession, ClientTimeout
 from aiohttp.client_exceptions import ClientError
 
-from weatherbit.errors import InvalidApiKey, RequestError, ResultError, WeatherbitError
+from weatherbit.errors import InvalidApiKey, RequestError
 from weatherbit.const import (
     BASE_URL,
     DEFAULT_TIMEOUT,
@@ -190,9 +190,12 @@ class Api:
         except asyncio.TimeoutError:
             raise RequestError("Request to endpoint timed out: {endpoint}")
         except ClientError as err:
-            raise RequestError(
-                f"Error requesting data from {endpoint}: {err}"
-            ) from None
+            if err.message == "Forbidden":
+                raise InvalidApiKey("Your API Key is invalid or does not support this operation")
+            else:
+                raise RequestError(
+                    f"Error requesting data from {endpoint}: {err}"
+                ) from None
         finally:
             if not use_running_session:
                 await session.close()
