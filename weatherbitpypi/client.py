@@ -6,12 +6,12 @@ from typing import Optional
 from aiohttp import ClientSession, ClientTimeout
 from aiohttp.client_exceptions import ClientError
 
-from weatherbit.errors import InvalidApiKey, RequestError
-from weatherbit.const import (
+from weatherbitpypi.errors import InvalidApiKey, RequestError
+from weatherbitpypi.const import (
     BASE_URL,
     DEFAULT_TIMEOUT,
 )
-from weatherbit.data_classes import (
+from weatherbitpypi.data_classes import (
     CurrentData,
     ForecastDailyData,
     ForecastHourlyData,
