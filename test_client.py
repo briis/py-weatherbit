@@ -35,10 +35,11 @@ async def main() -> None:
         for row in data:
             _LOGGER.info(f"{row.city_name} - {row.valid_date} - {row.weather_text} - {row.max_temp}")
 
-        _LOGGER.info("GETTING HOURLY FORECAST DATA:")
-        data = await wbit.async_get_forecast_hourly()
-        for row in data:
-            _LOGGER.info(f"{row.city_name} - {row.timestamp} - {row.weather_text} - {row.temp}")
+        # NOTE: Unmark if you have a paid API Key
+        # _LOGGER.info("GETTING HOURLY FORECAST DATA:")
+        # data = await wbit.async_get_forecast_hourly()
+        # for row in data:
+        #     _LOGGER.info(f"{row.city_name} - {row.timestamp} - {row.weather_text} - {row.temp}")
 
         _LOGGER.info("GETTING WEATHER ALERTS:")
         data = await wbit.async_get_weather_alerts()
