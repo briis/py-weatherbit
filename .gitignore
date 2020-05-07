@@ -132,3 +132,4 @@ data/forecast.json
 data/alerts.json
 data/current.json
 *.code-workspace
+.DS_Store
