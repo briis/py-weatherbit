@@ -29,117 +29,117 @@ class CurrentData:
         self._timezone = data["timezone"]
 
     @property
-    def station(self):
+    def station(self) -> str:
         """Source station ID."""
         return self._station
 
     @property
-    def city_name(self):
+    def city_name(self) -> str:
         """City Name."""
         return self._city_name
 
     @property
-    def ob_time(self):
+    def ob_time(self) -> str:
         """Last observation time (YYYY-MM-DD HH:MM)."""
         return self._ob_time
 
     @property
-    def temp(self):
+    def temp(self) -> float:
         """Temperature."""
         return self._temp
 
     @property
-    def app_temp(self):
+    def app_temp(self) -> float:
         """Apparent/"Feels Like" temperature."""
         return self._app_temp
 
     @property
-    def humidity(self):
+    def humidity(self) -> int:
         """Relative humidity (%)."""
         return self._humidity
 
     @property
-    def pres(self):
+    def pres(self) -> float:
         """Pressure."""
         return self._pres
 
     @property
-    def clouds(self):
+    def clouds(self) -> int:
         """Cloud coverage (%)."""
         return self._clouds
 
     @property
-    def solar_rad(self):
+    def solar_rad(self) -> int:
         """Estimated Solar Radiation (W/m^2)."""
         return self._solar_rad
 
     @property
-    def wind_spd(self):
+    def wind_spd(self) -> float:
         """Wind speed."""
         return self._wind_spd
 
     @property
-    def wind_cdir(self):
+    def wind_cdir(self) -> str:
         """Abbreviated wind direction.."""
         return self._wind_cdir
 
     @property
-    def wind_dir(self):
+    def wind_dir(self) -> int:
         """Wind direction (degrees)."""
         return self._wind_dir
 
     @property
-    def dewpt(self):
+    def dewpt(self) -> float:
         """Dew point."""
         return self._dewpt
 
     @property
-    def pod(self):
+    def pod(self) -> str:
         """Part of the day (d = day / n = night)."""
         return self._pod
 
     @property
-    def weather_icon(self):
+    def weather_icon(self) -> str:
         """Weather icon code."""
         return self._weather_icon
 
     @property
-    def weather_code(self):
+    def weather_code(self) -> int:
         """Weather code."""
         return self._weather_code
 
     @property
-    def weather_text(self):
+    def weather_text(self) -> str:
         """Weather Description."""
         return self._weather_text
 
     @property
-    def vis(self):
+    def vis(self) -> int:
         """Visibility (default KM)."""
         return self._vis
 
     @property
-    def precip(self):
+    def precip(self) -> float:
         """Liquid equivalent precipitation rate."""
         return self._precip
 
     @property
-    def snow(self):
+    def snow(self) -> float:
         """Snowfall."""
         return self._snow
 
     @property
-    def uv(self):
+    def uv(self) -> float:
         """UV Index."""
         return self._uv
 
     @property
-    def aqi(self):
+    def aqi(self) -> float:
         """Air Quality Index [US - EPA standard 0 - +500]."""
         return self._aqi
 
     @property
-    def timezone(self):
+    def timezone(self) -> str:
         """Local IANA Timezone."""
         return self._timezone
 
@@ -174,127 +174,127 @@ class ForecastDailyData:
         self._timezone = data["timezone"]
 
     @property
-    def city_name(self):
+    def city_name(self) -> str:
         """Nearest city name."""
         return self._city_name
 
     @property
-    def valid_date(self):
+    def valid_date(self) -> str:
         """Date the forecast is valid for (YYYY-MM-DD)"""
         return self._valid_date
 
     @property
-    def temp(self):
+    def temp(self) -> float:
         """Average Temperature."""
         return self._temp
 
     @property
-    def max_temp(self):
+    def max_temp(self) -> float:
         """Maximum Temperature."""
         return self._max_temp
 
     @property
-    def min_temp(self):
+    def min_temp(self) -> float:
         """Minimum Temperature."""
         return self._min_temp
 
     @property
-    def app_max_temp(self):
+    def app_max_temp(self) -> float:
         """ Apparent/"Feels Like" temperature at max_temp time."""
         return self._app_max_temp
 
     @property
-    def app_min_temp(self):
+    def app_min_temp(self) -> float:
         """ Apparent/"Feels Like" temperature at min_temp time."""
         return self._app_min_temp
 
     @property
-    def humidity(self):
+    def humidity(self) -> int:
         """Relative humidity (%)."""
         return self._humidity
 
     @property
-    def pres(self):
+    def pres(self) -> float:
         """Pressure."""
         return self._pres
 
     @property
-    def clouds(self):
+    def clouds(self) -> int:
         """Cloud coverage (%)."""
         return self._clouds
 
     @property
-    def wind_spd(self):
+    def wind_spd(self) -> float:
         """Wind speed."""
         return self._wind_spd
 
     @property
-    def wind_gust_spd(self):
+    def wind_gust_spd(self) -> float:
         """Wind gust speed."""
         return self._wind_gust_spd
 
     @property
-    def wind_cdir(self):
+    def wind_cdir(self) -> str:
         """Abbreviated wind direction.."""
         return self._wind_cdir
 
     @property
-    def wind_dir(self):
+    def wind_dir(self) -> int:
         """Wind direction (degrees)."""
         return self._wind_dir
 
     @property
-    def dewpt(self):
+    def dewpt(self) -> float:
         """Dew point."""
         return self._dewpt
 
     @property
-    def pop(self):
+    def pop(self) -> int:
         """Probability of Precipitation (%)."""
         return self._pop
 
     @property
-    def weather_icon(self):
+    def weather_icon(self) -> str:
         """Weather icon code."""
         return self._weather_icon
 
     @property
-    def weather_code(self):
+    def weather_code(self) -> int:
         """Weather code."""
         return self._weather_code
 
     @property
-    def weather_text(self):
+    def weather_text(self) -> str:
         """Weather Description."""
         return self._weather_text
 
     @property
-    def vis(self):
+    def vis(self) -> int:
         """Visibility (default KM)."""
         return self._vis
 
     @property
-    def precip(self):
+    def precip(self) -> float:
         """Accumulated liquid equivalent precipitation."""
         return self._precip
 
     @property
-    def snow(self):
+    def snow(self) -> float:
         """Accumulated Snowfall."""
         return self._snow
 
     @property
-    def uv(self):
+    def uv(self) -> float:
         """UV Index."""
         return self._uv
 
     @property
-    def ozone(self):
+    def ozone(self) -> float:
         """Average Ozone (Dobson units)."""
         return self._ozone
 
     @property
-    def timezone(self):
+    def timezone(self) -> str:
         """Local IANA Timezone."""
         return self._timezone
 
@@ -313,42 +313,42 @@ class WeatherAlerts:
         self._regions = data["regions"]
 
     @property
-    def city_name(self):
+    def city_name(self) -> str:
         """Nearest city name."""
         return self._city_name
 
     @property
-    def timezone(self):
+    def timezone(self) -> str:
         """Local IANA Timezone."""
         return self._timezone
 
     @property
-    def title(self):
+    def title(self) -> str:
         """Brief description of the alert."""
         return self._title
 
     @property
-    def description(self):
+    def description(self) -> str:
         """Detailed description of the alert."""
         return self._description
 
     @property
-    def severity(self):
+    def severity(self) -> str:
         """Severity of the weather phenomena - Either Advisory, Watch, or Warning."""
         return self._severity
 
     @property
-    def effective_local(self):
+    def effective_local(self) -> str:
         """Local time that alert was issued."""
         return self._effective_local
 
     @property
-    def expires_local(self):
+    def expires_local(self) -> str:
         """Local time that alert expires."""
         return self._expires_local
 
     @property
-    def uri(self):
+    def uri(self) -> str:
         """An HTTP(S) URI that one may refer to for more detailed alert information."""
         return self._uri
 
