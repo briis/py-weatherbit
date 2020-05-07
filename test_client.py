@@ -25,20 +25,20 @@ async def main() -> None:
     start = time.time()
 
     try:
-        # _LOGGER.info("GETTING CURRENT DATA:")
-        # data = await wbit.async_get_current_data()
-        # for row in data:
-        #     _LOGGER.info(f"{row.city_name} - {row.ob_time} - {row.weather_text} - {row.timezone}")
+        _LOGGER.info("GETTING CURRENT DATA:")
+        data = await wbit.async_get_current_data()
+        for row in data:
+            _LOGGER.info(f"{row.city_name} - {row.ob_time} - {row.weather_text} - {row.timezone}")
 
-        # _LOGGER.info("GETTING DAILY FORECAST DATA:")
-        # data = await wbit.async_get_forecast_daily()
-        # for row in data:
-        #     _LOGGER.info(f"{row.city_name} - {row.valid_date} - {row.weather_text} - {row.max_temp}")
+        _LOGGER.info("GETTING DAILY FORECAST DATA:")
+        data = await wbit.async_get_forecast_daily()
+        for row in data:
+            _LOGGER.info(f"{row.city_name} - {row.valid_date} - {row.weather_text} - {row.max_temp}")
 
-        # _LOGGER.info("GETTING HOURLY FORECAST DATA:")
-        # data = await wbit.async_get_forecast_hourly()
-        # for row in data:
-        #     _LOGGER.info(f"{row.city_name} - {row.timestamp} - {row.weather_text} - {row.temp}")
+        _LOGGER.info("GETTING HOURLY FORECAST DATA:")
+        data = await wbit.async_get_forecast_hourly()
+        for row in data:
+            _LOGGER.info(f"{row.city_name} - {row.timestamp} - {row.weather_text} - {row.temp}")
 
         _LOGGER.info("GETTING WEATHER ALERTS:")
         data = await wbit.async_get_weather_alerts()
