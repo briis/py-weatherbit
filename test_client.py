@@ -5,7 +5,7 @@ import logging
 import time
 import json
 
-from weatherbitpypi.client import Api
+from weatherbitpypi.client import Weatherbit
 from weatherbitpypi.errors import WeatherbitError
 
 _LOGGER = logging.getLogger(__name__)
@@ -20,7 +20,7 @@ async def main() -> None:
     """Create the aiohttp session and run the example."""
     logging.basicConfig(level=logging.DEBUG)
 
-    wbit = Api(API_KEY,LATITUDE,LONGITUDE,LANGUAGE)
+    wbit = Weatherbit(API_KEY,LATITUDE,LONGITUDE,LANGUAGE)
 
     start = time.time()
 

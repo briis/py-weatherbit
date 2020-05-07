@@ -20,7 +20,7 @@ from weatherbitpypi.data_classes import (
 
 _LOGGER = logging.getLogger(__name__)
 
-class WeatherBit:
+class Weatherbit:
     """Weatherbit Current Conditions Client."""
 
     def __init__(
@@ -28,9 +28,9 @@ class WeatherBit:
         api_key: str,
         latitude: float,
         longitude: float,
-        session: Optional[ClientSession] = None,
         language: str="en",
         units: str = "M",
+        session: Optional[ClientSession] = None,
         ):
         self._api_key = api_key
         self._latitude = latitude
