@@ -131,3 +131,4 @@ py-weatherbit.code-workspace
 data/forecast.json
 data/alerts.json
 data/current.json
+*.code-workspace
