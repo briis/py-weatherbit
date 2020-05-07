@@ -8,7 +8,6 @@ setup(
   author = 'Bjarne Riis',
   author_email = 'bjarne@briis.com',
   url = 'https://github.com/briis/py-weatherbit',
-#   download_url = 'https://github.com/briis/py-weatherbit/archive/v_01.tar.gz',    # I explain this later on
   keywords = ['Weatherbit', 'Forecast', 'Python'],
   install_requires=[
           'asyncio',
