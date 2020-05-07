@@ -5,8 +5,8 @@ import logging
 import time
 import json
 
-from weatherbit.client import Api
-from weatherbit.errors import WeatherbitError
+from weatherbitpypi.client import Api
+from weatherbitpypi.errors import WeatherbitError
 
 _LOGGER = logging.getLogger(__name__)
 
