@@ -133,3 +133,5 @@ data/alerts.json
 data/current.json
 *.code-workspace
 .DS_Store
+test_client.py
+test_client.py

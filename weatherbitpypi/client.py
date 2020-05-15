@@ -40,6 +40,9 @@ class Weatherbit:
         self._session: ClientSession = session
         self.req = session
 
+    async def async_get_city_name(self) -> None:
+        return await self._city_name_by_lat_lon()
+
     async def async_get_current_data(self) -> None:
         return await self._get_current_data()
 
@@ -51,6 +54,17 @@ class Weatherbit:
 
     async def async_get_weather_alerts(self) -> None:
         return await self._get_weather_alert()
+
+    async def _city_name_by_lat_lon(self) -> None:
+        """Return City Name by providing Latitude and Longitude."""
+        endpoint = f"current?lat={self._latitude}&lon={self._longitude}&lang={self._language}&units={self._units}&key={self._api_key}"
+        json_data = await self.async_request("get", endpoint)
+
+        for row in json_data["data"]:
+            if row["city_name"]:
+                return row["city_name"]
+            else:
+                return "No City Name"
 
     async def _get_current_data(self) -> None:
         """Return Current Data for Location."""
