@@ -77,6 +77,7 @@ class Weatherbit:
             item = {
                 "station": row["station"],
                 "ob_time": row["ob_time"],
+                "datetime": row["datetime"],
                 "temp": row["temp"],
                 "city_name": row["city_name"],
                 "app_temp": row["app_temp"],
@@ -98,6 +99,8 @@ class Weatherbit:
                 "uv": row["uv"],
                 "aqi": row["aqi"],
                 "timezone": row["timezone"],
+                "sunrise": row["sunrise"],
+                "sunset": row["sunset"],
             }
             items.append(CurrentData(item))
 

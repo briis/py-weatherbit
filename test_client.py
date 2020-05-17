@@ -11,7 +11,8 @@ from weatherbitpypi.errors import WeatherbitError
 _LOGGER = logging.getLogger(__name__)
 
 
-API_KEY = "YOUR-API-KEY"
+#API_KEY = "YOUR-API-KEY"
+API_KEY = "2efc1231d69c41099e7f8e8356414d68"
 LATITUDE = 55.625053
 LONGITUDE = 12.136619
 LANGUAGE = "da"
@@ -25,14 +26,14 @@ async def main() -> None:
     start = time.time()
 
     try:
-        _LOGGER.info("GETTING CITY NAME:")
-        city_name = await wbit.async_get_city_name()
-        _LOGGER.info(f"CITY: {city_name}")
+        # _LOGGER.info("GETTING CITY NAME:")
+        # city_name = await wbit.async_get_city_name()
+        # _LOGGER.info(f"CITY: {city_name}")
 
-        # _LOGGER.info("GETTING CURRENT DATA:")
-        # data = await wbit.async_get_current_data()
-        # for row in data:
-        #     _LOGGER.info(f"{row.city_name} - {row.ob_time} - {row.weather_text} - {row.timezone}")
+        _LOGGER.info("GETTING CURRENT DATA:")
+        data = await wbit.async_get_current_data()
+        for row in data:
+            _LOGGER.info(f"{row.city_name} - {row.ob_time} - {row.weather_text} - {row.timezone} - {row.is_night}")
 
         # _LOGGER.info("GETTING DAILY FORECAST DATA:")
         # data = await wbit.async_get_forecast_daily()

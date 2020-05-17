@@ -7,6 +7,7 @@ class CurrentData:
         self._station = data["station"]
         self._city_name = data["city_name"]
         self._ob_time = data["ob_time"]
+        self._datetime = data["datetime"]
         self._temp = data["temp"]
         self._app_temp = data["app_temp"]
         self._humidity = data["rh"]
@@ -27,6 +28,8 @@ class CurrentData:
         self._uv = data["uv"]
         self._aqi = data["aqi"]
         self._timezone = data["timezone"]
+        self._sunrise = data["sunrise"]
+        self._sunset = data["sunset"]
 
     @property
     def station(self) -> str:
@@ -142,6 +145,15 @@ class CurrentData:
     def timezone(self) -> str:
         """Local IANA Timezone."""
         return self._timezone
+
+    @property
+    def is_night(self) -> bool:
+        """Returns True if night at location."""
+        dt_hour = self._datetime.split(":")
+        sunrise_hour = self._sunrise.split(":")
+        sunset_hour = self._sunset.split(":")
+        return False if dt_hour[1] > sunrise_hour[0] and dt_hour[1] < sunset_hour[0] else True
+
 
 class ForecastDailyData:
     """A representation of Daily Forecast Weather Data."""
