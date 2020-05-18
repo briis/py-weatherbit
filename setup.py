@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'weatherbitpypi',
   packages = ['weatherbitpypi'],
-  version = '0.6',
+  version = '0.7',
   license='MIT',
   description = 'Python Wrapper for Weatherbit API', 
   author = 'Bjarne Riis',
