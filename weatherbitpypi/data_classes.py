@@ -147,6 +147,21 @@ class CurrentData:
         return self._timezone
 
     @property
+    def sunrise(self) -> str:
+        """Sunrise time (HH:MM)."""
+        return self._sunrise
+
+    @property
+    def sunset(self) -> str:
+        """Suntime time (HH:MM)."""
+        return self._sunset
+
+    @property
+    def datetime(self) -> str:
+        """Current cycle hour (YYYY-MM-DD:HH)."""
+        return self._datetime
+
+    @property
     def is_night(self) -> bool:
         """Returns True if night at location."""
         dt_hour = self._datetime.split(":")

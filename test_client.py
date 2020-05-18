@@ -11,17 +11,17 @@ from weatherbitpypi.errors import WeatherbitError
 _LOGGER = logging.getLogger(__name__)
 
 
-#API_KEY = "YOUR-API-KEY"
-API_KEY = "2efc1231d69c41099e7f8e8356414d68"
+API_KEY = "YOUR-API-KEY"
 LATITUDE = 55.625053
 LONGITUDE = 12.136619
 LANGUAGE = "da"
+UNITS = "I" # M = Metric (Default), I = Imperial, S = Scientific
 
 async def main() -> None:
     """Create the aiohttp session and run the example."""
     logging.basicConfig(level=logging.DEBUG)
 
-    wbit = Weatherbit(API_KEY,LATITUDE,LONGITUDE,LANGUAGE)
+    wbit = Weatherbit(API_KEY,LATITUDE,LONGITUDE,LANGUAGE, UNITS)
 
     start = time.time()
 
@@ -33,7 +33,7 @@ async def main() -> None:
         _LOGGER.info("GETTING CURRENT DATA:")
         data = await wbit.async_get_current_data()
         for row in data:
-            _LOGGER.info(f"{row.city_name} - {row.ob_time} - {row.weather_text} - {row.timezone} - {row.is_night}")
+            _LOGGER.info(f"{row.datetime} - {row.sunrise} - {row.sunset} - {row.is_night}")
 
         # _LOGGER.info("GETTING DAILY FORECAST DATA:")
         # data = await wbit.async_get_forecast_daily()
