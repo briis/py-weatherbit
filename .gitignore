@@ -135,3 +135,4 @@ data/current.json
 .DS_Store
 test_client.py
 test_client.py
+test_data.txt
