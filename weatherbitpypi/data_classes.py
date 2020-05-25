@@ -1,3 +1,6 @@
+from datetime import datetime
+from dateutil import tz
+
 """Defines the Data Classes used."""
 
 class CurrentData:
@@ -164,11 +167,24 @@ class CurrentData:
     @property
     def is_night(self) -> bool:
         """Returns True if night at location."""
-        dt_hour = self._datetime.split(":")
-        sunrise_hour = self._sunrise.split(":")
-        sunset_hour = self._sunset.split(":")
-        return False if dt_hour[1] > sunrise_hour[0] and dt_hour[1] < sunset_hour[0] else True
 
+        from_zone = tz.gettz("UTC")
+        to_zone = tz.gettz(self.timezone)
+        obs_time = datetime.strptime(self.ob_time, "%Y-%m-%d %H:%M")
+        sun_rise = datetime.strptime(f"{obs_time.strftime('%Y-%m-%d')} {self.sunrise}", "%Y-%m-%d %H:%M")
+        sun_set = datetime.strptime(f"{obs_time.strftime('%Y-%m-%d')} {self.sunset}", "%Y-%m-%d %H:%M")
+
+        obs_day = obs_time.replace(tzinfo=from_zone)
+        sun_rise = sun_rise.replace(tzinfo=from_zone)
+        sun_set = sun_set.replace(tzinfo=from_zone)
+        obs_local = obs_day.astimezone(to_zone)
+        rise_local = sun_rise.astimezone(to_zone)
+        set_local = sun_set.astimezone(to_zone)
+
+        if obs_local >= set_local and obs_local <= rise_local:
+            return True
+        else:
+            return False
 
 class ForecastDailyData:
     """A representation of Daily Forecast Weather Data."""
