@@ -186,6 +186,17 @@ class CurrentData:
         else:
             return False
 
+    @property
+    def obs_time_local(self) -> str:
+        """Observation Time at Location."""
+        from_zone = tz.gettz("UTC")
+        to_zone = tz.gettz(self.timezone)
+        obs_time = datetime.strptime(self.ob_time, "%Y-%m-%d %H:%M")
+        obs_day = obs_time.replace(tzinfo=from_zone)
+        obs_local = obs_day.astimezone(to_zone)
+
+        return obs_local.strftime("%Y-%m-%d %H:%M")
+
 class ForecastDailyData:
     """A representation of Daily Forecast Weather Data."""
 
