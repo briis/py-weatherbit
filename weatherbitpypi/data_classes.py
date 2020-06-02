@@ -11,6 +11,7 @@ class CurrentData:
         self._city_name = data["city_name"]
         self._ob_time = data["ob_time"]
         self._datetime = data["datetime"]
+        self._ts = data["ts"]
         self._temp = data["temp"]
         self._app_temp = data["app_temp"]
         self._humidity = data["rh"]
@@ -48,6 +49,11 @@ class CurrentData:
     def ob_time(self) -> str:
         """Last observation time (YYYY-MM-DD HH:MM)."""
         return self._ob_time
+
+    @property
+    def timestamp(self) -> str:
+        """Date the forecast is valid for (YYYY-MM-DD HH:MM:SS)"""
+        return datetime.fromtimestamp(self._ts)
 
     @property
     def temp(self) -> float:
@@ -208,6 +214,7 @@ class ForecastDailyData:
     def __init__(self, data):
         self._city_name = data["city_name"]
         self._valid_date = data["valid_date"]
+        self._ts = data["ts"]
         self._temp = data["temp"]
         self._max_temp = data["max_temp"]
         self._min_temp = data["min_temp"]
@@ -241,6 +248,19 @@ class ForecastDailyData:
     def valid_date(self) -> str:
         """Date the forecast is valid for (YYYY-MM-DD)"""
         return self._valid_date
+
+    @property
+    def timestamp(self) -> str:
+        """Date the forecast is valid for (YYYY-MM-DD HH:MM:ss)"""
+        from_zone = tz.gettz("UTC")
+        to_zone = tz.gettz(self._timezone)
+        ts = datetime.fromtimestamp(self._ts)
+        date_notz = ts.replace(tzinfo=from_zone)
+        return date_notz.astimezone(to_zone)
+
+    @property
+    def ts_utc(self) -> str:
+        return datetime.fromtimestamp(self._ts)
 
     @property
     def temp(self) -> float:

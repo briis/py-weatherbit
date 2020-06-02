@@ -14,7 +14,7 @@ _LOGGER = logging.getLogger(__name__)
 API_KEY = "YOUR-API-KEY"
 LATITUDE = 47.608013
 LONGITUDE = -122.335167
-LANGUAGE = "da"
+LANGUAGE = "en"
 UNITS = "I" # M = Metric (Default), I = Imperial, S = Scientific
 
 async def main() -> None:
@@ -33,12 +33,12 @@ async def main() -> None:
         _LOGGER.info("GETTING CURRENT DATA:")
         data = await wbit.async_get_current_data()
         for row in data:
-            _LOGGER.info(f"{row.obs_time_local} - {row.datetime} - {row.sunrise} - {row.sunset} - {row.is_night} - {row.timezone} - {row.pod}")
+            _LOGGER.info(f"{row.obs_time_local} - {row.datetime} - {row.timestamp} - {row.sunrise} - {row.sunset} - {row.is_night} - {row.timezone} - {row.pod}")
 
-        # _LOGGER.info("GETTING DAILY FORECAST DATA:")
-        # data = await wbit.async_get_forecast_daily()
-        # for row in data:
-        #     _LOGGER.info(f"{row.city_name} - {row.valid_date} - {row.weather_text} - {row.max_temp}")
+        _LOGGER.info("GETTING DAILY FORECAST DATA:")
+        data = await wbit.async_get_forecast_daily()
+        for row in data:
+            _LOGGER.info(f"{row.city_name} - {row.timestamp} - {row.valid_date} - {row.ts_utc} - {row.weather_text} - {row.max_temp}")
 
         # NOTE: Unmark if you have a paid API Key
         # _LOGGER.info("GETTING HOURLY FORECAST DATA:")
