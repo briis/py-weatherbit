@@ -176,7 +176,7 @@ class Weatherbit:
             items.append(WeatherAlerts(item))
             return items
         else:
-            for row in json_data["data"]:
+            for row in json_data["alerts"]:
                 item = {
                     "city_name": city_name,
                     "timezone": timezone,
@@ -186,7 +186,7 @@ class Weatherbit:
                     "effective_local": row["effective_local"],
                     "expires_local": row["expires_local"],
                     "uri": row["uri"],
-                    "regions": [],
+                    "regions": row["regions"],
                 }
                 items.append(WeatherAlerts(item))
             return items

@@ -33,12 +33,12 @@ async def main() -> None:
         _LOGGER.info("GETTING CURRENT DATA:")
         data = await wbit.async_get_current_data()
         for row in data:
-            _LOGGER.info(f"{row.obs_time_local} - {row.datetime} - {row.timestamp} - {row.sunrise} - {row.sunset} - {row.is_night} - {row.timezone} - {row.pod}")
+            _LOGGER.info(f"{row.obs_time_local} - {row.ts} - {row.timestamp} - {row.sunrise} - {row.sunset} - {row.is_night} - {row.timezone} - {row.pod}")
 
-        _LOGGER.info("GETTING DAILY FORECAST DATA:")
-        data = await wbit.async_get_forecast_daily()
-        for row in data:
-            _LOGGER.info(f"{row.city_name} - {row.timestamp} - {row.valid_date} - {row.ts_utc} - {row.weather_text} - {row.max_temp}")
+        # _LOGGER.info("GETTING DAILY FORECAST DATA:")
+        # data = await wbit.async_get_forecast_daily()
+        # for row in data:
+        #     _LOGGER.info(f"{row.city_name} - {row.timestamp} - {row.valid_date} - {row.ts_utc} - {row.weather_text} - {row.max_temp}")
 
         # NOTE: Unmark if you have a paid API Key
         # _LOGGER.info("GETTING HOURLY FORECAST DATA:")
@@ -49,7 +49,7 @@ async def main() -> None:
         # _LOGGER.info("GETTING WEATHER ALERTS:")
         # data = await wbit.async_get_weather_alerts()
         # for row in data:
-        #     _LOGGER.info(f"{row.city_name} - {row.title}")
+        #     _LOGGER.info(f"{row.city_name} - {row.severity} - {row.title} - {row.regions}")
 
     except WeatherbitError as err:
         _LOGGER.info(err)

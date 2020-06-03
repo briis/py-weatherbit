@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime as dt
 from dateutil import tz
 
 """Defines the Data Classes used."""
@@ -51,9 +51,14 @@ class CurrentData:
         return self._ob_time
 
     @property
+    def ts(self) -> float:
+        """Return UNIX Timestamp. (Local Time)"""
+        return self._ts
+
+    @property
     def timestamp(self) -> str:
         """Date the forecast is valid for (YYYY-MM-DD HH:MM:SS)"""
-        return datetime.fromtimestamp(self._ts)
+        return dt.fromtimestamp(self._ts)
 
     @property
     def temp(self) -> float:
@@ -179,30 +184,12 @@ class CurrentData:
         else:
             return False
 
-        # from_zone = tz.gettz("UTC")
-        # to_zone = tz.gettz(self.timezone)
-        # obs_time = datetime.strptime(self.ob_time, "%Y-%m-%d %H:%M")
-        # sun_rise = datetime.strptime(f"{obs_time.strftime('%Y-%m-%d')} {self.sunrise}", "%Y-%m-%d %H:%M")
-        # sun_set = datetime.strptime(f"{obs_time.strftime('%Y-%m-%d')} {self.sunset}", "%Y-%m-%d %H:%M")
-
-        # obs_day = obs_time.replace(tzinfo=from_zone)
-        # sun_rise = sun_rise.replace(tzinfo=from_zone)
-        # sun_set = sun_set.replace(tzinfo=from_zone)
-        # obs_local = obs_day.astimezone(to_zone)
-        # rise_local = sun_rise.astimezone(to_zone)
-        # set_local = sun_set.astimezone(to_zone)
-
-        # if obs_local >= set_local and obs_local <= rise_local:
-        #     return True
-        # else:
-        #     return False
-
     @property
     def obs_time_local(self) -> str:
         """Observation Time at Location."""
         from_zone = tz.gettz("UTC")
         to_zone = tz.gettz(self.timezone)
-        obs_time = datetime.strptime(self.ob_time, "%Y-%m-%d %H:%M")
+        obs_time = dt.strptime(self.ob_time, "%Y-%m-%d %H:%M")
         obs_day = obs_time.replace(tzinfo=from_zone)
         obs_local = obs_day.astimezone(to_zone)
 
@@ -250,17 +237,23 @@ class ForecastDailyData:
         return self._valid_date
 
     @property
-    def timestamp(self) -> str:
+    def timestamp(self) -> dt:
         """Date the forecast is valid for (YYYY-MM-DD HH:MM:ss)"""
         from_zone = tz.gettz("UTC")
         to_zone = tz.gettz(self._timezone)
-        ts = datetime.fromtimestamp(self._ts)
+        ts = dt.fromtimestamp(self._ts)
         date_notz = ts.replace(tzinfo=from_zone)
         return date_notz.astimezone(to_zone)
 
     @property
-    def ts_utc(self) -> str:
-        return datetime.fromtimestamp(self._ts)
+    def ts(self) -> float:
+        """Return UNIX Timestamp. (UTC)"""
+        return self._ts
+
+    @property
+    def ts_utc(self) -> dt:
+        """Return datetime from Timestamp."""
+        return dt.fromtimestamp(self._ts)
 
     @property
     def temp(self) -> float:
