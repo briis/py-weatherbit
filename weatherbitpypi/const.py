@@ -8,4 +8,14 @@ DATA_TYPES = [
     "alert",
 ]
 
+ALERT_ADVISORY = "Advisory"
+ALERT_WATCH = "Watch"
+ALERT_WARNING = "Warning"
+
+WEATHER_ALERTS = [
+    ALERT_ADVISORY,
+    ALERT_WATCH,
+    ALERT_WARNING
+]
+
 DEFAULT_TIMEOUT = 10

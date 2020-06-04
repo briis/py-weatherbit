@@ -162,7 +162,7 @@ class Weatherbit:
         timezone = json_data["timezone"]
         alert_count = len(json_data["alerts"])
 
-        if json_data["alerts"] == 0:
+        if alert_count == 0:
             item = {
                 "alert_count": alert_count,
                 "city_name": city_name,
