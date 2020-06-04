@@ -160,9 +160,11 @@ class Weatherbit:
 
         city_name = json_data["city_name"]
         timezone = json_data["timezone"]
+        alert_count = len(json_data["alerts"])
 
-        if json_data["alerts"] == []:
+        if json_data["alerts"] == 0:
             item = {
+                "alert_count": alert_count,
                 "city_name": city_name,
                 "timezone": timezone,
                 "title": "No Weather Alerts",
@@ -178,6 +180,7 @@ class Weatherbit:
         else:
             for row in json_data["alerts"]:
                 item = {
+                    "alert_count": alert_count,
                     "city_name": city_name,
                     "timezone": timezone,
                     "title": row["title"],

@@ -131,7 +131,7 @@ class CurrentData:
         return self._weather_text
 
     @property
-    def vis(self) -> int:
+    def vis(self) -> float:
         """Visibility (default KM)."""
         return self._vis
 
@@ -374,6 +374,7 @@ class WeatherAlerts:
     """A representation of Severe Weather Alerts."""
 
     def __init__(self, data):
+        self._alert_count = data["alert_count"]
         self._city_name = data["city_name"]
         self._timezone = data["timezone"]
         self._title = data["title"]
@@ -383,6 +384,11 @@ class WeatherAlerts:
         self._expires_local = data["expires_local"]
         self._uri = data["uri"]
         self._regions = data["regions"]
+
+    @property
+    def alert_count(self) -> int:
+        """Number of Weather Alerts."""
+        return self._alert_count
 
     @property
     def city_name(self) -> str:
