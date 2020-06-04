@@ -10,8 +10,7 @@ from weatherbitpypi.errors import WeatherbitError
 
 _LOGGER = logging.getLogger(__name__)
 
-
-API_KEY = "YOUR-API-KEY"
+API_KEY = "2efc1231d69c41099e7f8e8356414d68"
 LATITUDE = 25.761681
 LONGITUDE = -80.191788
 LANGUAGE = "en"
