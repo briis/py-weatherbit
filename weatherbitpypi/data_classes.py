@@ -237,6 +237,11 @@ class ForecastDailyData:
         return self._valid_date
 
     @property
+    def local_time(self) -> dt:
+        """Return Time at Location."""
+        return dt.strptime(self._valid_date, "%Y-%m-%d").isoformat()
+
+    @property
     def timestamp(self) -> dt:
         """Date the forecast is valid for (YYYY-MM-DD HH:MM:ss)"""
         from_zone = tz.gettz("UTC")
@@ -249,11 +254,6 @@ class ForecastDailyData:
     def ts(self) -> float:
         """Return UNIX Timestamp. (UTC)"""
         return self._ts
-
-    @property
-    def ts_utc(self) -> dt:
-        """Return datetime from Timestamp."""
-        return dt.fromtimestamp(self._ts)
 
     @property
     def temp(self) -> float:
