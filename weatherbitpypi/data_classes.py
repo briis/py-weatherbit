@@ -34,6 +34,7 @@ class CurrentData:
         self._timezone = data["timezone"]
         self._sunrise = data["sunrise"]
         self._sunset = data["sunset"]
+        self._units = data["units"]
 
     @property
     def station(self) -> str:
@@ -195,6 +196,71 @@ class CurrentData:
 
         return obs_local.strftime("%Y-%m-%d %H:%M")
 
+    @property
+    def beaufort_value(self) -> int:
+        """Return the beaufort value based on current Wind Speed."""
+        if self._units != "M":
+            wind_speed_ms = self.wind_spd * 0.44704
+        else:
+            wind_speed_ms = self.wind_spd
+        
+        if (wind_speed_ms >= 32.6):
+            return 12
+        elif (wind_speed_ms >= 28.4):
+            return 11
+        elif (wind_speed_ms >= 24.5):
+            return 10
+        elif (wind_speed_ms >= 20.7):
+            return 9
+        elif (wind_speed_ms >= 17.2):
+            return 8
+        elif (wind_speed_ms >= 13.9):
+            return 7
+        elif (wind_speed_ms >= 10.8):
+            return 6
+        elif (wind_speed_ms >= 8.0):
+            return 5
+        elif (wind_speed_ms >= 5.5):
+            return 4
+        elif (wind_speed_ms >= 3.3):
+            return 3
+        elif (wind_speed_ms >= 1.5):
+            return 2
+        elif (wind_speed_ms >= 0.3):
+            return 1
+        else:
+            return 0
+
+    @property
+    def beaufort_text(self) -> str:
+        """Return Beaufort Description based on current wind speed."""
+        if self.beaufort_value == 0:
+            return "Calm"
+        elif self.beaufort_value == 1:
+            return "Light air"
+        elif self.beaufort_value == 2:
+            return "Light breeze"
+        elif self.beaufort_value == 3:
+            return "Gentle breeze"
+        elif self.beaufort_value == 4:
+            return "Moderate breeze"
+        elif self.beaufort_value == 5:
+            return "Fresh breeze"
+        elif self.beaufort_value == 6:
+            return "Strong breeze"
+        elif self.beaufort_value == 7:
+            return "Moderate Gale"
+        elif self.beaufort_value == 8:
+            return "Fresh Gale"
+        elif self.beaufort_value == 9:
+            return "Strong Gale"
+        elif self.beaufort_value == 10:
+            return "Storm"
+        elif self.beaufort_value == 11:
+            return "Violent Storm"
+        else:
+            return "Hurricane-force"
+            
 class ForecastDailyData:
     """A representation of Daily Forecast Weather Data."""
 

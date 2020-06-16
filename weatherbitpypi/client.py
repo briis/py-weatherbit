@@ -75,6 +75,7 @@ class Weatherbit:
         items = []
         for row in json_data["data"]:
             item = {
+                "units": self._units,
                 "station": row["station"],
                 "ob_time": row["ob_time"],
                 "datetime": row["datetime"],
