@@ -13,7 +13,7 @@ _LOGGER = logging.getLogger(__name__)
 API_KEY = "YOUR-API-KEY"
 LATITUDE = 55.625053
 LONGITUDE = 12.136619
-LANGUAGE = "en"
+LANGUAGE = "nl"
 UNITS = "M" # M = Metric (Default), I = Imperial, S = Scientific
 
 async def main() -> None:
@@ -32,7 +32,7 @@ async def main() -> None:
         _LOGGER.info("GETTING CURRENT DATA:")
         data = await wbit.async_get_current_data()
         for row in data:
-            _LOGGER.info(f"{row.beaufort_value} - {row.beaufort_text} - {row.timestamp} - {row.sunrise} - {row.sunset} - {row.is_night} - {row.timezone} - {row.pod}")
+            _LOGGER.info(f"{row.beaufort_value} - {row.beaufort_text} - {row.weather_text} - {row.sunrise} - {row.sunset} - {row.is_night} - {row.timezone} - {row.pod}")
 
         # _LOGGER.info("GETTING DAILY FORECAST DATA:")
         # data = await wbit.async_get_forecast_daily()

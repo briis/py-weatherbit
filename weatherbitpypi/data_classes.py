@@ -1,5 +1,8 @@
 from datetime import datetime as dt
 from dateutil import tz
+from weatherbitpypi.const import SUPPORTED_LANGUAGES
+import json
+import os
 
 """Defines the Data Classes used."""
 
@@ -35,6 +38,7 @@ class CurrentData:
         self._sunrise = data["sunrise"]
         self._sunset = data["sunset"]
         self._units = data["units"]
+        self._language = data["language"]
 
     @property
     def station(self) -> str:
@@ -234,33 +238,27 @@ class CurrentData:
     @property
     def beaufort_text(self) -> str:
         """Return Beaufort Description based on current wind speed."""
-        if self.beaufort_value == 0:
-            return "Calm"
-        elif self.beaufort_value == 1:
-            return "Light air"
-        elif self.beaufort_value == 2:
-            return "Light breeze"
-        elif self.beaufort_value == 3:
-            return "Gentle breeze"
-        elif self.beaufort_value == 4:
-            return "Moderate breeze"
-        elif self.beaufort_value == 5:
-            return "Fresh breeze"
-        elif self.beaufort_value == 6:
-            return "Strong breeze"
-        elif self.beaufort_value == 7:
-            return "Moderate Gale"
-        elif self.beaufort_value == 8:
-            return "Fresh Gale"
-        elif self.beaufort_value == 9:
-            return "Strong Gale"
-        elif self.beaufort_value == 10:
-            return "Storm"
-        elif self.beaufort_value == 11:
-            return "Violent Storm"
-        else:
-            return "Hurricane-force"
-            
+        return get_localized_beaufort_text(self._language, self.beaufort_value)
+
+
+def get_localized_beaufort_text(language, beaufort_value):
+    """Read the localized string from the Language file."""
+    if language not in SUPPORTED_LANGUAGES:
+        filename = f"/languages/en.json"
+    else:
+        filename = f"/languages/{language}.json"
+
+    # Build filepath
+    cwd = __file__
+    path_index = cwd.rfind("/")
+    top_path = cwd[0:path_index]
+    filepath = f"{top_path}{filename}"
+
+    # Return Beaufort Value from language string
+    with open(filepath) as json_file:
+        data = json.load(json_file)
+        return data["beaufort"][str(beaufort_value)]
+
 class ForecastDailyData:
     """A representation of Daily Forecast Weather Data."""
 

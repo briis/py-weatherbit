@@ -19,3 +19,10 @@ WEATHER_ALERTS = [
 ]
 
 DEFAULT_TIMEOUT = 10
+
+SUPPORTED_LANGUAGES = [
+    "en",
+    "da",
+    "nl",
+    "es",
+]

@@ -1,0 +1,17 @@
+{
+    "beaufort": {
+        "0": "Calma",
+        "1": "Ventolina",
+        "2": "Flojito",
+        "3": "Flojo",
+        "4": "Bonancible",
+        "5": "Fresquito",
+        "6": "Fresco",
+        "7": "Frescachón",
+        "8": "Temporal",
+        "9": "Temporal fuerte",
+        "10": "Temporal duro",
+        "11": "Temporal muy duro",
+        "12": "Temporal huracanado"
+    }
+}
