@@ -2,16 +2,16 @@
     "beaufort": {
         "0": "Calma",
         "1": "Ventolina",
-        "2": "Flojito",
-        "3": "Flojo",
-        "4": "Bonancible",
-        "5": "Fresquito",
-        "6": "Fresco",
-        "7": "Frescachón",
-        "8": "Temporal",
-        "9": "Temporal fuerte",
-        "10": "Temporal duro",
-        "11": "Temporal muy duro",
-        "12": "Temporal huracanado"
+        "2": "Flojito, Brisa muy débil",
+        "3": "Flojo, Brisa débil",
+        "4": "Bonancible, Brisa moderada",
+        "5": "Fresquito, Brisa fresca",
+        "6": "Fresco, Brisa fuerte",
+        "7": "Frescachó, Viento fuerte",
+        "8": "Viento duro",
+        "9": "Viento muy duro",
+        "10": "Temporal",
+        "11": "Temporal duro, Borrasca",
+        "12": "Huracán"
     }
 }
