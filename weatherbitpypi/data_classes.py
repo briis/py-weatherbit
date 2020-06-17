@@ -244,9 +244,9 @@ class CurrentData:
 def get_localized_beaufort_text(language, beaufort_value):
     """Read the localized string from the Language file."""
     if language not in SUPPORTED_LANGUAGES:
-        filename = f"/languages/en.json"
+        filename = f"/translations/en.json"
     else:
-        filename = f"/languages/{language}.json"
+        filename = f"/translations/{language}.json"
 
     # Build filepath
     cwd = __file__

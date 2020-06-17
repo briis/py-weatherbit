@@ -10,7 +10,6 @@ from weatherbitpypi.errors import WeatherbitError
 
 _LOGGER = logging.getLogger(__name__)
 
-API_KEY = "YOUR-API-KEY"
 LATITUDE = 55.625053
 LONGITUDE = 12.136619
 LANGUAGE = "nl"
@@ -18,9 +17,18 @@ UNITS = "M" # M = Metric (Default), I = Imperial, S = Scientific
 
 async def main() -> None:
     """Create the aiohttp session and run the example."""
+
+    # Get the API Key from secrets.json
+    path_index = __file__.rfind("/")
+    top_path = __file__[0:path_index]
+    filepath = f"{top_path}/secrets.json"
+    with open(filepath) as json_file:
+        data = json.load(json_file)
+        api_key = data["connection"]["api_key"]
+
     logging.basicConfig(level=logging.DEBUG)
 
-    wbit = Weatherbit(API_KEY,LATITUDE,LONGITUDE,LANGUAGE, UNITS)
+    wbit = Weatherbit(api_key,LATITUDE,LONGITUDE,LANGUAGE, UNITS)
 
     start = time.time()
 
