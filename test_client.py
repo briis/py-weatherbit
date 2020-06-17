@@ -12,7 +12,7 @@ _LOGGER = logging.getLogger(__name__)
 
 LATITUDE = 55.625053
 LONGITUDE = 12.136619
-LANGUAGE = "nl"
+LANGUAGE = "nb"
 UNITS = "M" # M = Metric (Default), I = Imperial, S = Scientific
 
 async def main() -> None:
