@@ -25,4 +25,5 @@ SUPPORTED_LANGUAGES = [
     "da",
     "nl",
     "es",
+    "de",
 ]
