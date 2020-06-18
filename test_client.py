@@ -10,9 +10,9 @@ from weatherbitpypi.errors import WeatherbitError
 
 _LOGGER = logging.getLogger(__name__)
 
-LATITUDE = 55.625053
-LONGITUDE = 12.136619
-LANGUAGE = "nb"
+LATITUDE = 29.951065
+LONGITUDE = -90.071533
+LANGUAGE = "en"
 UNITS = "M" # M = Metric (Default), I = Imperial, S = Scientific
 
 async def main() -> None:
@@ -37,10 +37,10 @@ async def main() -> None:
         # city_name = await wbit.async_get_city_name()
         # _LOGGER.info(f"CITY: {city_name}")
 
-        _LOGGER.info("GETTING CURRENT DATA:")
-        data = await wbit.async_get_current_data()
-        for row in data:
-            _LOGGER.info(f"{row.beaufort_value} - {row.beaufort_text} - {row.weather_text} - {row.sunrise} - {row.sunset} - {row.is_night} - {row.timezone} - {row.pod}")
+        # _LOGGER.info("GETTING CURRENT DATA:")
+        # data = await wbit.async_get_current_data()
+        # for row in data:
+        #     _LOGGER.info(f"{row.beaufort_value} - {row.beaufort_text} - {row.weather_text} - {row.sunrise} - {row.sunset} - {row.is_night} - {row.timezone} - {row.pod}")
 
         # _LOGGER.info("GETTING DAILY FORECAST DATA:")
         # data = await wbit.async_get_forecast_daily()
@@ -53,10 +53,17 @@ async def main() -> None:
         # for row in data:
         #     _LOGGER.info(f"{row.city_name} - {row.timestamp} - {row.weather_text} - {row.temp}")
 
-        # _LOGGER.info("GETTING WEATHER ALERTS:")
-        # data = await wbit.async_get_weather_alerts()
-        # for row in data:
-        #     _LOGGER.info(f"{row.alert_count} - {row.city_name} - {row.severity} - {row.title} - {row.regions}")
+        _LOGGER.info("GETTING WEATHER ALERTS:")
+        data = await wbit.async_get_weather_alerts()
+        for row in data:
+            _LOGGER.info("\n" +
+                f"ALERT COUNT: {row.alert_count}" + "\n" +
+                f"CITY: {row.city_name}" + "\n" +
+                f"SEVERITY: {row.severity}" + "\n" +
+                f"TITLE: {row.title}" + "\n" +
+                f"REGIONS: {row.regions}" + "\n" +
+                f"DESCRIPTION: {row.description}" + "\n"
+            )
 
     except WeatherbitError as err:
         _LOGGER.info(err)
