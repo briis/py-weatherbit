@@ -30,4 +30,5 @@ SUPPORTED_LANGUAGES = [
     "it",
     "nb",
     "sv",
+    "pt",
 ]
