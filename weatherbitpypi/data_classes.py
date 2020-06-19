@@ -103,7 +103,9 @@ class CurrentData:
     @property
     def wind_cdir(self) -> str:
         """Abbreviated wind direction.."""
-        return self._wind_cdir
+        direction_array = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW","N"]
+        direction = direction_array[int((self._wind_dir + 11.25) / 22.5)]
+        return get_localized_text(self._language, direction, "wind_dir")
 
     @property
     def wind_dir(self) -> int:
@@ -238,10 +240,10 @@ class CurrentData:
     @property
     def beaufort_text(self) -> str:
         """Return Beaufort Description based on current wind speed."""
-        return get_localized_beaufort_text(self._language, self.beaufort_value)
+        return get_localized_text(self._language, self.beaufort_value, "beaufort")
 
 
-def get_localized_beaufort_text(language, beaufort_value):
+def get_localized_text(language, value, index):
     """Read the localized string from the Language file."""
     if language not in SUPPORTED_LANGUAGES:
         filename = f"/translations/en.json"
@@ -254,10 +256,10 @@ def get_localized_beaufort_text(language, beaufort_value):
     top_path = cwd[0:path_index]
     filepath = f"{top_path}{filename}"
 
-    # Return Beaufort Value from language string
+    # Return Value from language string
     with open(filepath) as json_file:
         data = json.load(json_file)
-        return data["beaufort"][str(beaufort_value)]
+        return data[index][str(value)]
 
 class ForecastDailyData:
     """A representation of Daily Forecast Weather Data."""
