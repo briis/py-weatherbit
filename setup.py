@@ -6,7 +6,7 @@ setup(
     "": ["*.md"],
     "weatherbitpypi": ["translations/*.json"],
   },
-  version = '0.21',
+  version = '0.22',
   license='MIT',
   description = 'Python Wrapper for Weatherbit API', 
   author = 'Bjarne Riis',
