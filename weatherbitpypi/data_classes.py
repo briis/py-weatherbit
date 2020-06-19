@@ -149,7 +149,7 @@ class CurrentData:
 
     @property
     def snow(self) -> float:
-        """Snowfall."""
+        """Snowfall (default mm/hr)."""
         return self._snow
 
     @property
@@ -418,7 +418,7 @@ class ForecastDailyData:
 
     @property
     def snow(self) -> float:
-        """Accumulated Snowfall."""
+        """Accumulated snowfall (default mm)."""
         return self._snow
 
     @property
