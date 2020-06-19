@@ -183,12 +183,12 @@ class CurrentData:
         return self._ghi
 
     @property
-    def elev_angle(self) -> float:
+    def elev_angle(self) -> int:
         """Solar elevation angle (degrees)."""
         return self._elev_angle
 
     @property
-    def h_angle(self) -> float:
+    def h_angle(self) -> int:
         """Solar hour angle (degrees)."""
         return self._h_angle
 
