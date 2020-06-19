@@ -34,6 +34,11 @@ class CurrentData:
         self._snow = data["snow"]
         self._uv = data["uv"]
         self._aqi = data["aqi"]
+        self._dhi = data["dhi"]
+        self._dni = data["dni"]
+        self._ghi = data["ghi"]
+        self._elev_angle = data["elev_angle"]
+        self._h_angle = data["h_angle"]
         self._timezone = data["timezone"]
         self._sunrise = data["sunrise"]
         self._sunset = data["sunset"]
@@ -161,6 +166,31 @@ class CurrentData:
     def aqi(self) -> float:
         """Air Quality Index [US - EPA standard 0 - +500]."""
         return self._aqi
+
+    @property
+    def dhi(self) -> float:
+        """Diffuse horizontal solar irradiance (W/m^2) [Clear Sky]."""
+        return self._dhi
+
+    @property
+    def dni(self) -> float:
+        """Direct normal solar irradiance (W/m^2) [Clear Sky]."""
+        return self._dni
+
+    @property
+    def ghi(self) -> float:
+        """Global horizontal solar irradiance (W/m^2) [Clear Sky]."""
+        return self._ghi
+
+    @property
+    def elev_angle(self) -> float:
+        """Solar elevation angle (degrees)."""
+        return self._elev_angle
+
+    @property
+    def h_angle(self) -> float:
+        """Solar hour angle (degrees)."""
+        return self._h_angle
 
     @property
     def timezone(self) -> str:
