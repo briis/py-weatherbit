@@ -24,12 +24,12 @@
         "SE": "SE",
         "SSE": "SSE",
         "S": "S",
-        "SSW": "SSW",
-        "SW": "SW",
-        "WSW": "WSW",
-        "W": "W",
-        "WNW": "WNW",
-        "NW": "NW",
-        "NNW": "NNW"
+        "SSW": "SSO",
+        "SW": "SO",
+        "WSW": "OSO",
+        "W": "O",
+        "WNW": "ONO",
+        "NW": "NO",
+        "NNW": "NNO"
     }
 }
