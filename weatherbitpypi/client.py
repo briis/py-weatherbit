@@ -101,6 +101,11 @@ class Weatherbit:
                 "snow": row["snow"],
                 "uv": row["uv"],
                 "aqi": row["aqi"],
+                "dhi": row["dhi"],
+                "dni": row["dni"],
+                "ghi": row["ghi"],
+                "elev_angle": row["elev_angle"],
+                "h_angle": row["h_angle"],
                 "timezone": row["timezone"],
                 "sunrise": row["sunrise"],
                 "sunset": row["sunset"],
@@ -147,11 +152,6 @@ class Weatherbit:
                 "snow": row["snow"],
                 "uv": row["uv"],
                 "ozone": row["ozone"],
-                "dhi": row["dhi"],
-                "dni": row["dni"],
-                "ghi": row["ghi"],
-                "elev_angle": row["elev_angle"],
-                "h_angle": row["h_angle"],
             }
             items.append(ForecastDailyData(item))
 
