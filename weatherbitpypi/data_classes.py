@@ -1,5 +1,8 @@
 from datetime import datetime as dt
-from dateutil import tz
+# import datetime
+# from dateutil import tz
+import pytz
+
 from weatherbitpypi.const import SUPPORTED_LANGUAGES
 import json
 import os
@@ -199,13 +202,13 @@ class CurrentData:
 
     @property
     def sunrise(self) -> str:
-        """Sunrise time (HH:MM)."""
-        return self._sunrise
+        """Sunrise time (HH:MM) Local Timezone."""
+        return get_timezone_time(self._sunrise, self._timezone)
 
     @property
     def sunset(self) -> str:
-        """Suntime time (HH:MM)."""
-        return self._sunset
+        """Suntime time (HH:MM) Local Timezone."""
+        return get_timezone_time(self._sunset, self._timezone)
 
     @property
     def datetime(self) -> str:
@@ -223,14 +226,8 @@ class CurrentData:
 
     @property
     def obs_time_local(self) -> str:
-        """Observation Time at Location."""
-        from_zone = tz.gettz("UTC")
-        to_zone = tz.gettz(self.timezone)
-        obs_time = dt.strptime(self.ob_time, "%Y-%m-%d %H:%M")
-        obs_day = obs_time.replace(tzinfo=from_zone)
-        obs_local = obs_day.astimezone(to_zone)
-
-        return obs_local.strftime("%Y-%m-%d %H:%M")
+        """Observation Time at Location (Local Timezone)."""
+        return get_timezone_date(self.ob_time, self._timezone, "%Y-%m-%d %H:%M")
 
     @property
     def beaufort_value(self) -> int:
@@ -291,6 +288,32 @@ def get_localized_text(language, value, index):
         data = json.load(json_file)
         return data[index][str(value)]
 
+def get_timezone_time(value, timezone_local):
+    """Returns %H:%M in local timezone from a UTC time."""
+    val_arr = value.split(":")
+    tz_local = pytz.timezone(timezone_local)
+    tz_utc = pytz.utc
+    year = dt.today().year
+    month = dt.today().month
+    day = dt.today().day
+    hour = int(val_arr[0])
+    minute = int(val_arr[1])
+    val_utc = dt(year, month, day, hour, minute, 0, tzinfo=tz_utc)
+    return val_utc.astimezone(tz_local).strftime("%H:%M")
+
+def get_timezone_date(value, timezone_local, time_format):
+    """Returns %Y-%m-%d %H:%M in local timezone from a UTC datetime."""
+    tz_local = pytz.timezone(timezone_local)
+    tz_utc = pytz.utc
+    val_date = dt.strptime(value, time_format)
+    year = val_date.year
+    month = val_date.month
+    day = val_date.day
+    hour = val_date.hour
+    minute = val_date.minute
+    val_utc = dt(year, month, day, hour, minute, 0, tzinfo=tz_utc)
+    return val_utc.astimezone(tz_local).strftime(time_format)
+     
 class ForecastDailyData:
     """A representation of Daily Forecast Weather Data."""
 
@@ -340,11 +363,13 @@ class ForecastDailyData:
     @property
     def timestamp(self) -> dt:
         """Date the forecast is valid for (YYYY-MM-DD HH:MM:ss)"""
-        from_zone = tz.gettz("UTC")
-        to_zone = tz.gettz(self._timezone)
-        ts = dt.fromtimestamp(self._ts)
-        date_notz = ts.replace(tzinfo=from_zone)
-        return date_notz.astimezone(to_zone)
+        # from_zone = tz.gettz("UTC")
+        # to_zone = tz.gettz(self._timezone)
+        # ts = dt.fromtimestamp(self._ts)
+        # date_notz = ts.replace(tzinfo=from_zone)
+        # return date_notz.astimezone(to_zone)
+        ts = dt.fromtimestamp(self._ts).strftime("%Y-%m-%d %H:%M:%S")
+        return get_timezone_date(ts, self._timezone, "%Y-%m-%d %H:%M:%S")
 
     @property
     def ts(self) -> float:
