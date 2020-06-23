@@ -1,6 +1,5 @@
 from datetime import datetime as dt
-# import datetime
-# from dateutil import tz
+import datetime
 import pytz
 
 from weatherbitpypi.const import SUPPORTED_LANGUAGES
@@ -203,12 +202,12 @@ class CurrentData:
     @property
     def sunrise(self) -> str:
         """Sunrise time (HH:MM) Local Timezone."""
-        return get_timezone_time(self._sunrise, self._timezone)
+        return get_timezone_time(self._sunrise, self._timezone, True)
 
     @property
     def sunset(self) -> str:
         """Suntime time (HH:MM) Local Timezone."""
-        return get_timezone_time(self._sunset, self._timezone)
+        return get_timezone_time(self._sunset, self._timezone, False)
 
     @property
     def datetime(self) -> str:
@@ -288,18 +287,24 @@ def get_localized_text(language, value, index):
         data = json.load(json_file)
         return data[index][str(value)]
 
-def get_timezone_time(value, timezone_local):
+def get_timezone_time(value, timezone_local, sunrise):
     """Returns %H:%M in local timezone from a UTC time."""
     val_arr = value.split(":")
     tz_local = pytz.timezone(timezone_local)
     tz_utc = pytz.utc
-    year = dt.today().year
-    month = dt.today().month
-    day = dt.today().day
     hour = int(val_arr[0])
     minute = int(val_arr[1])
+    day_part = dt.today()
+    year = day_part.year
+    month = day_part.month
+    day = day_part.day
+    
     val_utc = dt(year, month, day, hour, minute, 0, tzinfo=tz_utc)
-    return val_utc.astimezone(tz_local).strftime("%H:%M")
+    val_local = val_utc.astimezone(tz_local)
+    # Time has passed, move to next day
+    if val_local < dt.now(tz_local):
+        val_local = val_local + datetime.timedelta(days=1)
+    return val_local.strftime("%Y-%m-%d %H:%M")
 
 def get_timezone_date(value, timezone_local, time_format):
     """Returns %Y-%m-%d %H:%M in local timezone from a UTC datetime."""
@@ -363,11 +368,6 @@ class ForecastDailyData:
     @property
     def timestamp(self) -> dt:
         """Date the forecast is valid for (YYYY-MM-DD HH:MM:ss)"""
-        # from_zone = tz.gettz("UTC")
-        # to_zone = tz.gettz(self._timezone)
-        # ts = dt.fromtimestamp(self._ts)
-        # date_notz = ts.replace(tzinfo=from_zone)
-        # return date_notz.astimezone(to_zone)
         ts = dt.fromtimestamp(self._ts).strftime("%Y-%m-%d %H:%M:%S")
         return get_timezone_date(ts, self._timezone, "%Y-%m-%d %H:%M:%S")
 
