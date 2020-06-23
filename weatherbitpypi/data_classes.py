@@ -269,55 +269,6 @@ class CurrentData:
         return get_localized_text(self._language, self.beaufort_value, "beaufort")
 
 
-def get_localized_text(language, value, index):
-    """Read the localized string from the Language file."""
-    if language not in SUPPORTED_LANGUAGES:
-        filename = f"/translations/en.json"
-    else:
-        filename = f"/translations/{language}.json"
-
-    # Build filepath
-    cwd = __file__
-    path_index = cwd.rfind("/")
-    top_path = cwd[0:path_index]
-    filepath = f"{top_path}{filename}"
-
-    # Return Value from language string
-    with open(filepath) as json_file:
-        data = json.load(json_file)
-        return data[index][str(value)]
-
-def get_timezone_time(value, timezone_local, sunrise):
-    """Returns %H:%M in local timezone from a UTC time."""
-    val_arr = value.split(":")
-    tz_local = pytz.timezone(timezone_local)
-    tz_utc = pytz.utc
-    hour = int(val_arr[0])
-    minute = int(val_arr[1])
-    day_part = dt.today()
-    year = day_part.year
-    month = day_part.month
-    day = day_part.day
-    
-    val_utc = dt(year, month, day, hour, minute, 0, tzinfo=tz_utc)
-    val_local = val_utc.astimezone(tz_local)
-    # Time has passed, move to next day
-    if val_local < dt.now(tz_local):
-        val_local = val_local + datetime.timedelta(days=1)
-    return val_local.strftime("%Y-%m-%d %H:%M")
-
-def get_timezone_date(value, timezone_local, time_format):
-    """Returns %Y-%m-%d %H:%M in local timezone from a UTC datetime."""
-    tz_local = pytz.timezone(timezone_local)
-    tz_utc = pytz.utc
-    val_date = dt.strptime(value, time_format)
-    year = val_date.year
-    month = val_date.month
-    day = val_date.day
-    hour = val_date.hour
-    minute = val_date.minute
-    val_utc = dt(year, month, day, hour, minute, 0, tzinfo=tz_utc)
-    return val_utc.astimezone(tz_local).strftime(time_format)
      
 class ForecastDailyData:
     """A representation of Daily Forecast Weather Data."""
@@ -698,3 +649,57 @@ class ForecastHourlyData:
     def timezone(self):
         """Local IANA Timezone."""
         return self._timezone
+
+############################
+# Helper Functions below
+############################
+
+def get_localized_text(language, value, index):
+    """Read the localized string from the Language file."""
+    if language not in SUPPORTED_LANGUAGES:
+        filename = f"/translations/en.json"
+    else:
+        filename = f"/translations/{language}.json"
+
+    # Build filepath
+    cwd = __file__
+    path_index = cwd.rfind("/")
+    top_path = cwd[0:path_index]
+    filepath = f"{top_path}{filename}"
+
+    # Return Value from language string
+    with open(filepath) as json_file:
+        data = json.load(json_file)
+        return data[index][str(value)]
+
+def get_timezone_time(value, timezone_local, sunrise):
+    """Returns %H:%M in local timezone from a UTC time."""
+    val_arr = value.split(":")
+    tz_local = pytz.timezone(timezone_local)
+    tz_utc = pytz.utc
+    hour = int(val_arr[0])
+    minute = int(val_arr[1])
+    day_part = dt.today()
+    year = day_part.year
+    month = day_part.month
+    day = day_part.day
+    
+    val_utc = dt(year, month, day, hour, minute, 0, tzinfo=tz_utc)
+    val_local = val_utc.astimezone(tz_local)
+    # Time has passed, move to next day
+    if val_local < dt.now(tz_local):
+        val_local = val_local + datetime.timedelta(days=1)
+    return val_local.strftime("%Y-%m-%d %H:%M")
+
+def get_timezone_date(value, timezone_local, time_format):
+    """Returns %Y-%m-%d %H:%M in local timezone from a UTC datetime."""
+    tz_local = pytz.timezone(timezone_local)
+    tz_utc = pytz.utc
+    val_date = dt.strptime(value, time_format)
+    year = val_date.year
+    month = val_date.month
+    day = val_date.day
+    hour = val_date.hour
+    minute = val_date.minute
+    val_utc = dt(year, month, day, hour, minute, 0, tzinfo=tz_utc)
+    return val_utc.astimezone(tz_local).strftime(time_format)
