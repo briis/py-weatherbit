@@ -701,7 +701,7 @@ def get_timezone_date(value, timezone_local, time_format):
         val_date = dt.strptime(value, time_format)
     except ValueError:
        _LOGGER.debug(f"Date in Wrong Format: {value}")
-       return None 
+       return None
     year = val_date.year
     month = val_date.month
     day = val_date.day

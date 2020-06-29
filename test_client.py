@@ -41,7 +41,7 @@ async def main() -> None:
         _LOGGER.info("GETTING CURRENT DATA:")
         data = await wbit.async_get_current_data()
         for row in data:
-            _LOGGER.info(f"{row.beaufort_value} - {row.beaufort_text} - {row.weather_text} - {row.wind_cdir} - {row.wind_dir} - {row.ob_time} - {row.obs_time_local} - {row.obs_time_local} - {row.timezone} - {row.sunrise} - {row.sunset}")
+            _LOGGER.info(f"{row.beaufort_value} - {row.beaufort_text} - {row.weather_text} - {row.wind_cdir} - {row.wind_dir} - {row.ob_time} - {row.obs_time_local} - {row.timezone} - {row.sunrise} - {row.sunset}")
 
         # _LOGGER.info("GETTING DAILY FORECAST DATA:")
         # data = await wbit.async_get_forecast_daily()
