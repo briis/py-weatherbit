@@ -1,3 +1,4 @@
+"""Defines the Data Classes used."""
 from datetime import datetime as dt
 import datetime
 import pytz
@@ -5,8 +6,9 @@ import pytz
 from weatherbitpypi.const import SUPPORTED_LANGUAGES
 import json
 import os
+import logging
 
-"""Defines the Data Classes used."""
+_LOGGER = logging.getLogger(__name__)
 
 class CurrentData:
     """A representation of Current Weather Data."""
@@ -695,7 +697,11 @@ def get_timezone_date(value, timezone_local, time_format):
     """Returns %Y-%m-%d %H:%M in local timezone from a UTC datetime."""
     tz_local = pytz.timezone(timezone_local)
     tz_utc = pytz.utc
-    val_date = dt.strptime(value, time_format)
+    try:
+        val_date = dt.strptime(value, time_format)
+    except ValueError:
+       _LOGGER.debug(f"Date in Wrong Format: {value}")
+       return None 
     year = val_date.year
     month = val_date.month
     day = val_date.day
