@@ -10,9 +10,11 @@ from weatherbitpypi.errors import WeatherbitError
 
 _LOGGER = logging.getLogger(__name__)
 
-LATITUDE = 55.625053
-LONGITUDE = 12.136619
-LANGUAGE = "de"
+# LATITUDE = 55.625053
+# LONGITUDE = 12.136619
+LATITUDE = 6
+LONGITUDE = 3
+LANGUAGE = "da"
 UNITS = "M" # M = Metric (Default), I = Imperial, S = Scientific
 
 async def main() -> None:
@@ -38,15 +40,15 @@ async def main() -> None:
         # city_name = await wbit.async_get_city_name()
         # _LOGGER.info(f"CITY: {city_name}")
 
-        _LOGGER.info("GETTING CURRENT DATA:")
-        data = await wbit.async_get_current_data()
-        for row in data:
-            _LOGGER.info(f"{row.beaufort_value} - {row.beaufort_text} - {row.weather_text} - {row.wind_cdir} - {row.wind_dir} - {row.ob_time} - {row.obs_time_local} - {row.timezone} - {row.sunrise} - {row.sunset}")
-
-        # _LOGGER.info("GETTING DAILY FORECAST DATA:")
-        # data = await wbit.async_get_forecast_daily()
+        # _LOGGER.info("GETTING CURRENT DATA:")
+        # data = await wbit.async_get_current_data()
         # for row in data:
-        #     _LOGGER.info(f"{row.city_name} - {row.timestamp} - {row.timezone} - {row.local_time} - {row.weather_text} - {row.max_temp}")
+        #     _LOGGER.info(f"{row.beaufort_value} - {row.beaufort_text} - {row.weather_text} - {row.wind_cdir} - {row.wind_dir} - {row.ob_time} - {row.obs_time_local} - {row.timezone} - {row.sunrise} - {row.sunset}")
+
+        _LOGGER.info("GETTING DAILY FORECAST DATA:")
+        data = await wbit.async_get_forecast_daily()
+        for row in data:
+            _LOGGER.info(f"{row.city_name} - {row.timestamp} - {row.timezone} - {row.local_time} - {row.weather_text} - {row.max_temp}")
 
         # NOTE: Unmark if you have a paid API Key
         # _LOGGER.info("GETTING HOURLY FORECAST DATA:")

@@ -1,5 +1,6 @@
 """Define a client to interact with Weatherbit."""
 import asyncio
+import sys
 import logging
 from typing import Optional
 
@@ -246,6 +247,8 @@ class Weatherbit:
     async def async_request(self, method: str, endpoint: str) -> dict:
         """Make a request against the Weatherbit API."""
 
+        _LOGGER.debug(f"ENDPOINT: {BASE_URL}/{endpoint}")
+
         use_running_session = self._session and not self._session.closed
 
         if use_running_session:
@@ -261,12 +264,14 @@ class Weatherbit:
                 data = await resp.json()
                 return data
         except asyncio.TimeoutError:
-            raise RequestError("Request to endpoint timed out: {endpoint}")
+            raise RequestError(f"Request to endpoint timed out: {BASE_URL}/{endpoint}")
         except ClientError as err:
             if "Forbidden" in str(err):
                 raise InvalidApiKey("Your API Key is invalid or does not support this operation")
             else:
-                raise RequestError(f"Error requesting data from {BASE_URL}/{endpoint}: {str(err)}")
+                raise RequestError(f"Error requesting data from {BASE_URL}: {str(err)}")
+        except:
+            raise RequestError(f"Error occurred: {sys.exc_info()[0]}")
         finally:
             if not use_running_session:
                 await session.close()
