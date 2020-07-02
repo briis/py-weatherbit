@@ -262,12 +262,12 @@ class Weatherbit:
                 return data
         except asyncio.TimeoutError:
             raise RequestError("Request to endpoint timed out: {endpoint}")
-        except ClientError as err:
-            if "Forbidden" in err:
+        except ClientError:
+            if "Forbidden" in resp.reason:
                 raise InvalidApiKey("Your API Key is invalid or does not support this operation")
             else:
                 raise RequestError(
-                    f"Error requesting data from {endpoint}: {err}"
+                    f"Error requesting data from {endpoint}: {resp.reason}"
                 ) from None
         finally:
             if not use_running_session:
