@@ -247,8 +247,6 @@ class Weatherbit:
     async def async_request(self, method: str, endpoint: str) -> dict:
         """Make a request against the Weatherbit API."""
 
-        _LOGGER.debug(f"ENDPOINT: {BASE_URL}/{endpoint}")
-
         use_running_session = self._session and not self._session.closed
 
         if use_running_session:
