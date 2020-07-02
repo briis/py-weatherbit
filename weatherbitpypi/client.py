@@ -271,7 +271,7 @@ class Weatherbit:
             else:
                 raise RequestError(f"Error requesting data from {BASE_URL}: {str(err)}")
         except:
-            raise RequestError(f"Error occurred: {sys.exc_info()[0]}")
+            raise RequestError(f"Error occurred: {sys.exc_info()[1]}")
         finally:
             if not use_running_session:
                 await session.close()
