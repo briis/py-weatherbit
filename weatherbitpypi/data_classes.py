@@ -23,6 +23,7 @@ class CurrentData:
         self._app_temp = data["app_temp"]
         self._humidity = data["rh"]
         self._pres = data["pres"]
+        self._slp = data["slp"]
         self._clouds = data["clouds"]
         self._solar_rad = data["solar_rad"]
         self._wind_spd = data["wind_spd"]
@@ -93,6 +94,11 @@ class CurrentData:
     def pres(self) -> float:
         """Pressure."""
         return self._pres
+
+    @property
+    def slp(self) -> float:
+        """Sea level pressure."""
+        return self._slp
 
     @property
     def clouds(self) -> int:
@@ -286,6 +292,7 @@ class ForecastDailyData:
         self._app_min_temp = data["app_min_temp"]
         self._humidity = data["rh"]
         self._pres = data["pres"]
+        self._slp = data["slp"]
         self._clouds = data["clouds"]
         self._wind_spd = data["wind_spd"]
         self._wind_gust_spd = data["wind_gust_spd"]
@@ -361,8 +368,13 @@ class ForecastDailyData:
 
     @property
     def pres(self) -> float:
-        """Pressure."""
+        """Average pressure."""
         return self._pres
+
+    @property
+    def slp(self) -> float:
+        """Average sea level pressure."""
+        return self._slp
 
     @property
     def clouds(self) -> int:
