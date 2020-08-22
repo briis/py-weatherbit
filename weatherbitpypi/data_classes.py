@@ -116,6 +116,11 @@ class CurrentData:
         return self._wind_spd
 
     @property
+    def wind_spd_knot(self) -> float:
+        """Wind speed in knot - Nautical Miles per hour."""
+        return self._wind_spd * 1.9438444924406
+
+    @property
     def wind_cdir(self) -> str:
         """Abbreviated wind direction.."""
         direction_array = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW","N"]
