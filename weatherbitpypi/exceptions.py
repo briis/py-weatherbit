@@ -18,6 +18,7 @@ class RequestError(WeatherbitError):
 
     pass
 
+
 class ResultError(WeatherbitError):
     """Define an error related to the result returned from a request."""
 

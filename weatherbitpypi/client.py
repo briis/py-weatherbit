@@ -69,8 +69,8 @@ class Weatherbit:
 
     async def _get_current_data(self) -> None:
         """Return Current Data for Location."""
-
-        endpoint = f"current?lat={self._latitude}&lon={self._longitude}&lang={self._language}&units={self._units}&key={self._api_key}"
+        endpoint = f"current?lat={self._latitude}&lon={self._longitude}&lang={self._language}"
+        endpoint += f"&key={self._api_key}&units={self._units}"
         json_data = await self.async_request("get", endpoint)
 
         items = []
