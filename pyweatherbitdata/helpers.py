@@ -77,7 +77,7 @@ class Conversions:
         """Return m/s to knots."""
         if wind_speed is None:
             return None
-        return wind_speed * 1.943844
+        return round(wind_speed * 1.943844, 1)
 
     def utc_from_timestamp(self, timestamp: int) -> dt.datetime:
         """Return a UTC time from a timestamp."""
