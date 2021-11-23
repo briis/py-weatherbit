@@ -15,7 +15,6 @@ It will require an API Key to work, which can be retrieved for free at [Weatherb
 
 The module is primarily written for the purpose of being used in Home Assistant for the Custom Integration called `weatherbit` but might be used for other purposes also.
 
-
 ## Install
 
 `pyweatherbitdata` is avaible on PyPi:
