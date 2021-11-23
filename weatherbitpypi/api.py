@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import logging
-from typing import List, Optional
+from typing import Optional
 
 from aiohttp import ClientSession, ClientTimeout, client_exceptions
 
@@ -20,7 +20,8 @@ from weatherbitpypi.data import (
     ForecastDescription,
     ObservationDescription,
 )
-from weatherbitpypi.exceptions import ResultError
+from weatherbitpypi.exceptions import RequestError, InvalidApiKey, ResultError, NotInitialized
+from weatherbitpypi.helpers import Calculations, Conversions
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -50,6 +51,7 @@ class WeatherBitApiClient:
 
         if self.units not in VALID_UNIT_TYPES:
             self.units = UNIT_TYPE_METRIC
+        self._is_metric = self.units is UNIT_TYPE_METRIC
 
         if self.language not in VALID_LANGUAGES:
             self.language = LANGUAGE_EN
@@ -57,6 +59,8 @@ class WeatherBitApiClient:
         if session is None:
             session = ClientSession()
         self.req = session
+        self.cnv = Conversions(self.units, self.homeassistant)
+        self.calc = Calculations()
 
         self._station_data: BaseDataDescription = None
 
@@ -68,8 +72,11 @@ class WeatherBitApiClient:
     async def initialize(self) -> None:
         """Initialize data tables."""
         endpoint = f"{BASE_URL}/current?lat={self.latitude}&lon={self.longitude}&key={self.api_key}"
-        endpoint += f"&lang={self.language}&units={self.units}&include=alerts"
+        endpoint += f"&lang={self.language}&units=M"
         data = await self._async_request("get", endpoint)
+
+        if data is None:
+            raise ResultError("Data returned from WeatherBit. But empty or in unexpected format.") from None
 
         base_data = data["data"][0]
         entity_data = BaseDataDescription(
@@ -81,6 +88,84 @@ class WeatherBitApiClient:
             timezone=base_data["timezone"],
         )
         self._station_data = entity_data
+
+    async def update_sensors(self) -> None:
+        """Initialize data tables."""
+        if self.station_data is None:
+            raise NotInitialized("Station Data have not been initialized.") from None
+
+        endpoint = f"{BASE_URL}/current?lat={self.latitude}&lon={self.longitude}&key={self.api_key}"
+        endpoint += f"&lang={self.language}&units=M&include=alerts"
+        data = await self._async_request("get", endpoint)
+
+        if data is None:
+            raise ResultError("Data returned from WeatherBit. But empty or in unexpected format.") from None
+
+        try:
+            base_data = data["data"][0]
+            beaufort: BeaufortDescription = self.calc.beaufort(base_data["wind_spd"])
+            entity_data = ObservationDescription(
+                key=base_data["station"],
+                utc_time=self.cnv.utc_from_timestamp(base_data["ts"]),
+                city_name=base_data["city_name"],
+                temp=self.cnv.temperature(base_data["temp"]),
+                app_temp=self.cnv.temperature(base_data["app_temp"]),
+                pres=self.cnv.pressure(base_data["pres"]),
+                slp=self.cnv.pressure(base_data["slp"]),
+                clouds=base_data["clouds"],
+                solar_rad=base_data["solar_rad"],
+                wind_spd=self.cnv.windspeed(base_data["wind_spd"]),
+                wind_cdir=self.calc.wind_direction(base_data["wind_dir"]),
+                wind_dir=base_data["wind_dir"],
+                beaufort_value=beaufort.value,
+                beaufort_text=beaufort.description,
+                dewpt=self.cnv.temperature(base_data["dewpt"]),
+                pod=base_data["pod"],
+                weather_icon=base_data["weather"]["icon"],
+                weather_code=base_data["weather"]["code"],
+                weather_text=base_data["weather"]["description"],
+                vis=self.cnv.distance(base_data["vis"]),
+                precip=self.cnv.rain(base_data["precip"]),
+                snow=self.cnv.rain(base_data["snow"]),
+                uv=base_data["uv"],
+                aqi=base_data["aqi"],
+                dhi=base_data["dhi"],
+                dni=base_data["dni"],
+                ghi=base_data["ghi"],
+                elev_angle=base_data["elev_angle"],
+                h_angle=base_data["h_angle"],
+                timezone=base_data["timezone"],
+                sunrise=base_data["sunrise"],
+                sunset=base_data["sunset"],
+                is_night=True if base_data["pod"] == "n" else False,
+            )
+
+            return entity_data
+
+        except Exception as e:
+            _LOGGER.error("An error occured. Error message is %s", e.__class__)
+
+    async def load_unit_system(self) -> None:
+        """Return unit of meassurement based on unit system."""
+        density_unit = "kg/m^3" if self._is_metric else "lb/ft^3"
+        distance_unit = "km" if self._is_metric else "mi"
+        length_unit = "m/s" if self._is_metric else "mi/h"
+        length_km_unit = "km/h" if self._is_metric else "mi/h"
+        pressure_unit = "hPa" if self._is_metric else "inHg"
+        precip_unit = "mm" if self._is_metric else "in"
+
+        units_list = {
+            "none": None,
+            "density": density_unit,
+            "distance": distance_unit,
+            "length": length_unit,
+            "length_km": length_km_unit,
+            "pressure": pressure_unit,
+            "precipitation": precip_unit,
+            "precipitation_rate": f"{precip_unit}/h",
+        }
+
+        return units_list
 
     async def _async_request(
         self,
@@ -102,7 +187,9 @@ class WeatherBitApiClient:
                 return data
 
         except client_exceptions.ClientError as err:
-            raise ResultError(f"Error requesting data from Meteobridge: {err}") from None
+            if "403" in str(err):
+                raise InvalidApiKey("The API Key used is not valid. Try again with a new key.") from None
+            raise RequestError(f"Error requesting data from Meteobridge: {err}") from None
 
         finally:
             if not use_running_session:

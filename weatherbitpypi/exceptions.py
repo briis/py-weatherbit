@@ -12,6 +12,10 @@ class InvalidApiKey(WeatherbitError):
 
     pass
 
+class NotInitialized(WeatherbitError):
+    """Define an error related to not initializing station data."""
+
+    pass
 
 class RequestError(WeatherbitError):
     """Define an error related to invalid requests."""
