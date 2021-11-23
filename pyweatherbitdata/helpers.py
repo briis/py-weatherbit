@@ -5,8 +5,8 @@ import datetime as dt
 import logging
 import re
 
-from weatherbitpypi.const import UNIT_TYPE_METRIC
-from weatherbitpypi.data import BeaufortDescription
+from pyweatherbitdata.const import UNIT_TYPE_METRIC
+from pyweatherbitdata.data import BeaufortDescription
 
 UTC = dt.timezone.utc
 

@@ -6,7 +6,7 @@ from typing import Optional
 
 from aiohttp import ClientSession, ClientTimeout, client_exceptions
 
-from weatherbitpypi.const import (
+from pyweatherbitdata.const import (
     BASE_URL,
     DEFAULT_TIMEOUT,
     LANGUAGE_EN,
@@ -14,15 +14,15 @@ from weatherbitpypi.const import (
     VALID_LANGUAGES,
     VALID_UNIT_TYPES
 )
-from weatherbitpypi.data import (
+from pyweatherbitdata.data import (
     AlertDescription,
     BaseDataDescription,
     BeaufortDescription,
     ForecastDescription,
     ObservationDescription,
 )
-from weatherbitpypi.exceptions import RequestError, InvalidApiKey, ResultError, NotInitialized
-from weatherbitpypi.helpers import Calculations, Conversions
+from pyweatherbitdata.exceptions import RequestError, InvalidApiKey, ResultError, NotInitialized
+from pyweatherbitdata.helpers import Calculations, Conversions
 
 _LOGGER = logging.getLogger(__name__)
 
