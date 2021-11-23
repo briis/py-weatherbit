@@ -1,7 +1,7 @@
 """Dataclasses for weatherbit."""
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
 @dataclass
@@ -15,6 +15,24 @@ class BaseDataDescription:
     longitude: float
     country_code: str
     timezone: str
+
+
+@dataclass
+class AlertDescription:
+    """A class describing a Severe Weather Alert."""
+
+    key: str
+
+    title: str | None = None
+    en_description: str | None = None
+    loc_description: str | None = None
+    severity: str | None = None
+    effective_utc: str | None = None
+    ends_utc: str | None = None
+    expires_utc: str | None = None
+    onset_utc: str | None = None
+    uri: str | None = None
+    regions: list | None = None
 
 
 @dataclass
@@ -55,6 +73,7 @@ class ObservationDescription:
     is_night: bool | None = None
     beaufort_value: int | None = None
     beaufort_text: str | None = None
+    alerts: list[AlertDescription] = field(default_factory=list)
 
 
 @dataclass
@@ -86,6 +105,7 @@ class ForecastDescription:
     vis: float | None = None
     precip: float | None = None
     snow: float | None = None
+    uv: float | None = None
     ozone: float | None = None
 
 

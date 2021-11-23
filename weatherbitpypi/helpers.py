@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import datetime as dt
 import logging
+import re
 
 from weatherbitpypi.const import UNIT_TYPE_METRIC
 from weatherbitpypi.data import BeaufortDescription
@@ -75,6 +76,24 @@ class Conversions:
     def utc_from_timestamp(self, timestamp: int) -> dt.datetime:
         """Return a UTC time from a timestamp."""
         return dt.datetime.utcfromtimestamp(timestamp).replace(tzinfo=UTC)
+
+    def alert_descriptions(self, alert_text: str):
+        """Return alert description in English and Local language."""
+        if alert_text is None:
+            return None
+
+        try:
+            _repl_str = "**NL**"
+            replaced_alert = re.sub("\n", _repl_str, alert_text)
+            en_end = replaced_alert.find(_repl_str)
+            en_alert = replaced_alert[0:en_end]
+            loc_alert = replaced_alert[en_end+6:]
+            loc_alert.replace(_repl_str, "")
+
+            return en_alert, loc_alert
+        except Exception as e:
+            _LOGGER.error("An error occured splitting alert message. Error message is %s", str(e))
+            return None, None
 
 
 class Calculations:

@@ -15,6 +15,7 @@ from weatherbitpypi.const import (
     VALID_UNIT_TYPES
 )
 from weatherbitpypi.data import (
+    AlertDescription,
     BaseDataDescription,
     BeaufortDescription,
     ForecastDescription,
@@ -90,7 +91,7 @@ class WeatherBitApiClient:
         self._station_data = entity_data
 
     async def update_sensors(self) -> None:
-        """Initialize data tables."""
+        """Update sensor data."""
         if self.station_data is None:
             raise NotInitialized("Station Data have not been initialized.") from None
 
@@ -105,7 +106,7 @@ class WeatherBitApiClient:
             base_data = data["data"][0]
             beaufort: BeaufortDescription = self.calc.beaufort(base_data["wind_spd"])
             entity_data = ObservationDescription(
-                key=base_data["station"],
+                key=self.station_data.key,
                 utc_time=self.cnv.utc_from_timestamp(base_data["ts"]),
                 city_name=base_data["city_name"],
                 temp=self.cnv.temperature(base_data["temp"]),
@@ -138,6 +139,72 @@ class WeatherBitApiClient:
                 sunrise=base_data["sunrise"],
                 sunset=base_data["sunset"],
                 is_night=True if base_data["pod"] == "n" else False,
+            )
+
+            alert_items = data["alerts"]
+            for item in alert_items:
+                en_alert, loc_alert = self.cnv.alert_descriptions(item["description"])
+                alert_item = AlertDescription(
+                    key=self.station_data.key,
+                    title=item["title"],
+                    en_description=en_alert,
+                    loc_description=loc_alert,
+                    severity=item["severity"],
+                    effective_utc=item["effective_utc"],
+                    ends_utc=item["ends_utc"],
+                    expires_utc=item["expires_utc"],
+                    onset_utc=item["onset_utc"],
+                    uri=item["uri"],
+                    regions=item["regions"],
+                )
+                entity_data.alerts.append(alert_item)
+
+            return entity_data
+
+        except Exception as e:
+            _LOGGER.error("An error occured. Error message is %s", str(e))
+
+    async def update_forecast(self) -> None:
+        """Update forecast data."""
+        if self.station_data is None:
+            raise NotInitialized("Station Data have not been initialized.") from None
+
+        endpoint = f"{BASE_URL}/forecast/daily?lat={self.latitude}&lon={self.longitude}&key={self.api_key}"
+        endpoint += f"&lang={self.language}&units=M"
+        data = await self._async_request("get", endpoint)
+
+        if data is None:
+            raise ResultError("Data returned from WeatherBit. But empty or in unexpected format.") from None
+
+        try:
+            base_data = data["data"][0]
+            entity_data = ForecastDescription(
+                key=self.station_data.key,
+                utc_time=self.cnv.utc_from_timestamp(base_data["ts"]),
+                city_name=data["city_name"],
+                temp=self.cnv.temperature(base_data["temp"]),
+                max_temp=self.cnv.temperature(base_data["max_temp"]),
+                min_temp=self.cnv.temperature(base_data["min_temp"]),
+                app_max_temp=self.cnv.temperature(base_data["app_max_temp"]),
+                app_min_temp=self.cnv.temperature(base_data["app_min_temp"]),
+                humidity=base_data["rh"],
+                pres=self.cnv.pressure(base_data["pres"]),
+                slp=self.cnv.pressure(base_data["slp"]),
+                clouds=base_data["clouds"],
+                wind_spd=self.cnv.windspeed(base_data["wind_spd"]),
+                wind_gust_spd=self.cnv.windspeed(base_data["wind_gust_spd"]),
+                wind_cdir=self.calc.wind_direction(base_data["wind_dir"]),
+                wind_dir=base_data["wind_dir"],
+                dewpt=self.cnv.temperature(base_data["dewpt"]),
+                pop=base_data["pop"],
+                weather_icon=base_data["weather"]["icon"],
+                weather_code=base_data["weather"]["code"],
+                weather_text=base_data["weather"]["description"],
+                vis=self.cnv.distance(base_data["vis"]),
+                precip=self.cnv.rain(base_data["precip"]),
+                snow=self.cnv.rain(base_data["snow"]),
+                uv=base_data["uv"],
+                ozone=base_data["ozone"],
             )
 
             return entity_data
@@ -184,6 +251,7 @@ class WeatherBitApiClient:
             async with session.request(method, endpoint) as resp:
                 resp.raise_for_status()
                 data = await resp.json()
+
                 return data
 
         except client_exceptions.ClientError as err:
