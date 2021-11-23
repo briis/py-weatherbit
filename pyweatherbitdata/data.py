@@ -50,6 +50,8 @@ class ObservationDescription:
     clouds: int | None = None
     solar_rad: float | None = None
     wind_spd: float | None = None
+    wind_spd_kmh: float | None = None
+    wind_spd_knots: float | None = None
     wind_cdir: str | None = None
     wind_dir: int | None = None
     dewpt: float | None = None

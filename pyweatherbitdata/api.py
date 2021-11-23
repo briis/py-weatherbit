@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+from re import T
 from typing import Optional
 
 from aiohttp import ClientSession, ClientTimeout, client_exceptions
@@ -116,6 +117,8 @@ class WeatherBitApiClient:
                 clouds=base_data["clouds"],
                 solar_rad=base_data["solar_rad"],
                 wind_spd=self.cnv.windspeed(base_data["wind_spd"]),
+                wind_spd_kmh=self.cnv.windspeed(base_data["wind_spd"], True),
+                wind_spd_knots=self.cnv.windspeed_knots(base_data["wind_spd"]),
                 wind_cdir=self.calc.wind_direction(base_data["wind_dir"]),
                 wind_dir=base_data["wind_dir"],
                 beaufort_value=beaufort.value,
