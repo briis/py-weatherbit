@@ -5,7 +5,7 @@ import datetime as dt
 import logging
 import re
 
-from pyweatherbitdata.const import UNIT_TYPE_METRIC
+from pyweatherbitdata.const import CONDITION_CLASSES, UNIT_TYPE_METRIC
 from pyweatherbitdata.data import BeaufortDescription
 
 UTC = dt.timezone.utc
@@ -101,6 +101,17 @@ class Conversions:
             _LOGGER.error("An error occured splitting alert message. Error message is %s", str(e))
             return None, None
 
+    def condition_from_code(self, weather_code: int, is_night: bool = False) -> str:
+        """Return a Home Assistant weather condition from code."""
+        if weather_code is None:
+            return None
+        wcode = int(weather_code)
+        if is_night and wcode in [800, 801, 802]:
+            wcode = wcode * 10
+        return next(
+            (k for k, v in CONDITION_CLASSES.items() if wcode in v),
+            None,
+        )
 
 class Calculations:
     """Calculate entity values."""

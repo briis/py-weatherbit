@@ -7,6 +7,25 @@ ALERT_ADVISORY = "Advisory"
 ALERT_WATCH = "Watch"
 ALERT_WARNING = "Warning"
 
+CONDITION_CLASSES = {
+    "partlycloudy-night": [8010, 8020],
+    "clear-night": [8000],
+    "cloudy": [803, 804],
+    "exceptional": [],
+    "fog": [741],
+    "hail": [623],
+    "lightning": [230, 231],
+    "lightning-rainy": [200, 201, 202],
+    "partlycloudy-day": [801, 802],
+    "pouring": [502, 522],
+    "rainy": [300, 301, 302, 500, 501, 511, 520, 521],
+    "snowy": [600, 601, 602, 621, 622, 623],
+    "snowy-rainy": [610, 611, 612],
+    "sunny": [800],
+    "windy": [],
+    "windy-variant": [],
+}
+
 DATA_TYPES = [
     "current",
     "forecast",

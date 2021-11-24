@@ -65,6 +65,7 @@ class WeatherBitApiClient:
         self.calc = Calculations()
 
         self._station_data: BaseDataDescription = None
+        self._is_night = False
 
     @property
     def station_data(self) -> BaseDataDescription:
@@ -90,6 +91,7 @@ class WeatherBitApiClient:
             timezone=base_data["timezone"],
         )
         self._station_data = entity_data
+        self._is_night = True if base_data["pod"] == "n" else False
 
     async def update_sensors(self) -> None:
         """Update sensor data."""
@@ -143,7 +145,7 @@ class WeatherBitApiClient:
                 timezone=base_data["timezone"],
                 sunrise=base_data["sunrise"],
                 sunset=base_data["sunset"],
-                is_night=True if base_data["pod"] == "n" else False,
+                is_night=self._is_night,
             )
 
             alert_items = data["alerts"]
@@ -206,7 +208,7 @@ class WeatherBitApiClient:
                 dewpt=self.cnv.temperature(base_data["dewpt"]),
                 pop=base_data["pop"],
                 weather_icon=base_data["weather"]["icon"],
-                weather_code=base_data["weather"]["code"],
+                condition=self.cnv.condition_from_code(base_data["weather"]["code"], self._is_night),
                 weather_text=base_data["weather"]["description"],
                 vis=self.cnv.distance(base_data["vis"]),
                 precip=self.cnv.rain(base_data["precip"]),

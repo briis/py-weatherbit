@@ -104,8 +104,8 @@ class ForecastDescription:
     wind_dir: int | None = None
     dewpt: float | None = None
     pop: int | None = None
+    condition: str | None = None
     weather_icon: str | None = None
-    weather_code: int | None = None
     weather_text: str | None = None
     vis: float | None = None
     precip: float | None = None
