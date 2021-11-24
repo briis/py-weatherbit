@@ -82,6 +82,38 @@ class ObservationDescription:
 
 
 @dataclass
+class ForecastDetailDescription:
+    """A class describing forecast details weather data."""
+
+    key: str
+
+    utc_time: str | None = None
+    temp: float | None = None
+    max_temp: float | None = None
+    min_temp: float | None = None
+    app_max_temp: float | None = None
+    app_min_temp: float | None = None
+    humidity: int | None = None
+    pres: float | None = None
+    slp: float | None = None
+    clouds: int | None = None
+    wind_spd: float | None = None
+    wind_gust_spd: float | None = None
+    wind_cdir: str | None = None
+    wind_dir: int | None = None
+    dewpt: float | None = None
+    pop: int | None = None
+    condition: str | None = None
+    weather_icon: str | None = None
+    weather_text: str | None = None
+    vis: float | None = None
+    precip: float | None = None
+    snow: float | None = None
+    uv: float | None = None
+    ozone: float | None = None
+
+
+@dataclass
 class ForecastDescription:
     """A class describing forecast weather data."""
 
@@ -112,6 +144,7 @@ class ForecastDescription:
     snow: float | None = None
     uv: float | None = None
     ozone: float | None = None
+    forecast: list[ForecastDetailDescription] = field(default_factory=list)
 
 
 @dataclass
