@@ -77,6 +77,7 @@ class ObservationDescription:
     is_night: bool | None = None
     beaufort_value: int | None = None
     beaufort_text: str | None = None
+    alert_count: int | None = 0
     alerts: list[AlertDescription] = field(default_factory=list)
 
 
