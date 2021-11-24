@@ -46,6 +46,7 @@ class ObservationDescription:
     temp: float | None = None
     app_temp: float | None = None
     pres: float | None = None
+    humidity: int | None = None
     slp: float | None = None
     clouds: int | None = None
     solar_rad: float | None = None
