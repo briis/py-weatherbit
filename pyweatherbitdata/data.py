@@ -65,6 +65,7 @@ class ObservationDescription:
     snow: float | None = None
     uv: float | None = None
     aqi: float | None = None
+    aqi_level: str | None = None
     dhi: float | None = None
     dni: float | None = None
     ghi: float | None = None

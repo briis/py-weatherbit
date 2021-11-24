@@ -236,3 +236,21 @@ class Calculations:
             )
 
         return bft
+
+    def aqi_level(self, aqi_index: int) -> str:
+        """Return AQI Level from Index."""
+        if aqi_index is None:
+            return None
+
+        if aqi_index > 300:
+            return "hazardous"
+        elif aqi_index > 200:
+            return "very_unhealthy"
+        elif aqi_index > 150:
+            return "unhealthy"
+        elif aqi_index > 100:
+            return "unhealthy_for_sensitive_groups"
+        elif aqi_index > 50:
+            return "moderate"
+        else:
+            return "good"

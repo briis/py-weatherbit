@@ -134,6 +134,7 @@ class WeatherBitApiClient:
                 snow=self.cnv.rain(base_data["snow"]),
                 uv=base_data["uv"],
                 aqi=base_data["aqi"],
+                aqi_level=self.calc.aqi_level(base_data["aqi"]),
                 dhi=base_data["dhi"],
                 dni=base_data["dni"],
                 ghi=base_data["ghi"],
