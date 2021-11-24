@@ -243,14 +243,14 @@ class Calculations:
             return None
 
         if aqi_index > 300:
-            return "hazardous"
+            return "Hazardous"
         elif aqi_index > 200:
-            return "very_unhealthy"
+            return "Very Unhealthy"
         elif aqi_index > 150:
-            return "unhealthy"
+            return "Unhealthy"
         elif aqi_index > 100:
-            return "unhealthy_for_sensitive_groups"
+            return "Unhealthy for Sensitive Groups"
         elif aqi_index > 50:
-            return "moderate"
+            return "Moderate"
         else:
-            return "good"
+            return "Good"
