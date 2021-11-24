@@ -185,37 +185,41 @@ class WeatherBitApiClient:
 
         if data is None:
             raise ResultError("Data returned from WeatherBit. But empty or in unexpected format.") from None
-
         try:
-            base_data = data["data"][0]
-            entity_data = ForecastDescription(
-                key=self.station_data.key,
-                utc_time=self.cnv.utc_from_timestamp(base_data["ts"]),
-                city_name=data["city_name"],
-                temp=self.cnv.temperature(base_data["temp"]),
-                max_temp=self.cnv.temperature(base_data["max_temp"]),
-                min_temp=self.cnv.temperature(base_data["min_temp"]),
-                app_max_temp=self.cnv.temperature(base_data["app_max_temp"]),
-                app_min_temp=self.cnv.temperature(base_data["app_min_temp"]),
-                humidity=base_data["rh"],
-                pres=self.cnv.pressure(base_data["pres"]),
-                slp=self.cnv.pressure(base_data["slp"]),
-                clouds=base_data["clouds"],
-                wind_spd=self.cnv.windspeed(base_data["wind_spd"]),
-                wind_gust_spd=self.cnv.windspeed(base_data["wind_gust_spd"]),
-                wind_cdir=self.calc.wind_direction(base_data["wind_dir"]),
-                wind_dir=base_data["wind_dir"],
-                dewpt=self.cnv.temperature(base_data["dewpt"]),
-                pop=base_data["pop"],
-                weather_icon=base_data["weather"]["icon"],
-                condition=self.cnv.condition_from_code(base_data["weather"]["code"], self._is_night),
-                weather_text=base_data["weather"]["description"],
-                vis=self.cnv.distance(base_data["vis"]),
-                precip=self.cnv.rain(base_data["precip"]),
-                snow=self.cnv.rain(base_data["snow"]),
-                uv=base_data["uv"],
-                ozone=base_data["ozone"],
-            )
+            base_data = data["data"]
+            entity_data: list[ForecastDescription] = []
+            _first_record = self._is_night
+            for item in base_data:
+                forecast_data = ForecastDescription(
+                    key=self.station_data.key,
+                    utc_time=self.cnv.utc_from_timestamp(item["ts"]),
+                    city_name=data["city_name"],
+                    temp=self.cnv.temperature(item["temp"]),
+                    max_temp=self.cnv.temperature(item["max_temp"]),
+                    min_temp=self.cnv.temperature(item["min_temp"]),
+                    app_max_temp=self.cnv.temperature(item["app_max_temp"]),
+                    app_min_temp=self.cnv.temperature(item["app_min_temp"]),
+                    humidity=item["rh"],
+                    pres=self.cnv.pressure(item["pres"]),
+                    slp=self.cnv.pressure(item["slp"]),
+                    clouds=item["clouds"],
+                    wind_spd=self.cnv.windspeed(item["wind_spd"]),
+                    wind_gust_spd=self.cnv.windspeed(item["wind_gust_spd"]),
+                    wind_cdir=self.calc.wind_direction(item["wind_dir"]),
+                    wind_dir=item["wind_dir"],
+                    dewpt=self.cnv.temperature(item["dewpt"]),
+                    pop=item["pop"],
+                    weather_icon=item["weather"]["icon"],
+                    condition=self.cnv.condition_from_code(item["weather"]["code"], _first_record),
+                    weather_text=item["weather"]["description"],
+                    vis=self.cnv.distance(item["vis"]),
+                    precip=self.cnv.rain(item["precip"]),
+                    snow=self.cnv.rain(item["snow"]),
+                    uv=item["uv"],
+                    ozone=item["ozone"],
+                )
+                entity_data.append(forecast_data)
+                _first_record = False
 
             return entity_data
 
