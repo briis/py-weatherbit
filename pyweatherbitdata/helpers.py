@@ -106,7 +106,7 @@ class Conversions:
         if weather_code is None:
             return None
         wcode = int(weather_code)
-        if is_night and wcode in [800, 801, 802]:
+        if is_night and wcode in [800]:
             wcode = wcode * 10
         return next(
             (k for k, v in CONDITION_CLASSES.items() if wcode in v),
