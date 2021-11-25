@@ -64,6 +64,7 @@ class ObservationDescription:
     precip: float | None = None
     snow: float | None = None
     uv: float | None = None
+    uv_description: str | None = None
     aqi: float | None = None
     aqi_level: str | None = None
     dhi: float | None = None
