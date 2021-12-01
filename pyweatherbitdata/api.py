@@ -281,7 +281,7 @@ class WeatherBitApiClient:
         method: str,
         endpoint: str,
     ) -> dict:
-        """Make a request against the SmartWeather API."""
+        """Make a request against the API."""
         use_running_session = self.req and not self.req.closed
 
         if use_running_session:
