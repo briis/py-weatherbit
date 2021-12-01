@@ -299,7 +299,7 @@ class WeatherBitApiClient:
         except client_exceptions.ClientError as err:
             if "403" in str(err):
                 raise InvalidApiKey("The API Key used is not valid. Try again with a new key.") from None
-            raise RequestError(f"Error requesting data from Meteobridge: {err}") from None
+            raise RequestError(f"Error requesting data from WeatherBit: {err}") from None
 
         finally:
             if not use_running_session:
