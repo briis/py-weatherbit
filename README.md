@@ -1,7 +1,7 @@
 
 # Python Wrapper for WeatherBit API
 
-![Latest PyPI version](https://img.shields.io/pypi/v/py-weatherbit) ![Supported Python](https://img.shields.io/pypi/pyversions/py-weatherbit)
+![Latest PyPI version](https://img.shields.io/pypi/v/pyweatherbitdata) ![Supported Python](https://img.shields.io/pypi/pyversions/pyweatherbitdata)
 
 This module communicates with WeatherBit.io using [their REST API](https://www.weatherbit.io/api). The module is only supporting the Free Tier API's, for which there is more information [here](https://www.weatherbit.io/pricing).
 
