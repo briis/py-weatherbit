@@ -119,7 +119,7 @@ class WeatherBitApiClient:
                 slp=self.cnv.pressure(base_data["slp"]),
                 clouds=base_data["clouds"],
                 solar_rad=base_data["solar_rad"],
-                wind_spd=base_data["wind_spd"],
+                wind_spd=self.cnv.windspeed(base_data["wind_spd"]),
                 wind_spd_kmh=self.cnv.windspeed_kmh(base_data["wind_spd"]),
                 wind_spd_knots=self.cnv.windspeed_knots(base_data["wind_spd"]),
                 wind_cdir=self.calc.wind_direction(base_data["wind_dir"]),
