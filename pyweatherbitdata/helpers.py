@@ -79,6 +79,13 @@ class Conversions:
             return None
         return round(wind_speed * 1.943844, 1)
 
+    def windspeed_kmh(self, value: float) -> float:
+        """Return km/h from m/s."""
+        if value is None:
+            return value
+
+        return round(value * 3.6, 1)
+
     def utc_from_timestamp(self, timestamp: int) -> dt.datetime:
         """Return a UTC time from a timestamp."""
         return dt.datetime.utcfromtimestamp(timestamp).replace(tzinfo=UTC)
