@@ -61,14 +61,12 @@ class Conversions:
 
         return round(value * 0.6213688756, 1)
 
-    def windspeed(self, value, wind_unit_kmh: bool = False) -> float:
+    def windspeed(self, value) -> float:
         """Return miles per hour from m/s."""
         if value is None:
             return value
 
         if self.units == UNIT_TYPE_METRIC:
-            if wind_unit_kmh:
-                return round(value * 3.6, 1)
             return round(value, 1)
 
         return round(value * 2.236936292, 1)
