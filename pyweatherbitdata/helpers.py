@@ -26,9 +26,11 @@ class Conversions:
             return value
         return round(value * 1.8 + 32, 1)
 
-    def pressure(self, value) -> float:
+    def pressure(self, value, no_convert: bool = False) -> float:
         """Return inHg from mb/hPa."""
-        if value is None or self.units == UNIT_TYPE_METRIC:
+        if value is None:
+            return None
+        if no_convert or self.units == UNIT_TYPE_METRIC:
             return value
         return round(value * 0.029530, 1)
 
