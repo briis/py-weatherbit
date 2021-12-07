@@ -32,7 +32,7 @@ class Conversions:
             return None
         if no_convert or self.units == UNIT_TYPE_METRIC:
             return value
-        return round(value * 0.029530, 1)
+        return round(value * 0.029530, 3)
 
     def rain(self, value) -> float:
         """Convert rain units."""
