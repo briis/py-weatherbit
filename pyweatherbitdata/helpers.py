@@ -101,17 +101,23 @@ class Conversions:
             return None
 
         try:
-            _repl_str = "**NL**"
-            replaced_alert = re.sub("\n", _repl_str, alert_text)
-            en_end = replaced_alert.find(_repl_str)
-            en_alert = replaced_alert[0:en_end]
-            loc_alert = replaced_alert[en_end+6:]
-            loc_alert.replace(_repl_str, "")
+            desc_split = alert_text.split("\n")
+            if desc_split[0][:7] == "English":
+                loc_alert = self.trim_alert_text(desc_split[1])
+                en_alert = self.trim_alert_text(desc_split[0])
+            else:
+                loc_alert = self.trim_alert_text(desc_split[0])
+                en_alert = self.trim_alert_text(desc_split[1])
 
             return en_alert, loc_alert
         except Exception as e:
             _LOGGER.error("An error occured splitting alert message. Error message is %s", str(e))
             return None, None
+
+    def trim_alert_text(self, alert: str) -> str:
+        """Return a trimmed version of the ALert Text."""
+        index = alert.find(":")
+        return alert[index + 2:]
 
     def condition_from_code(self, weather_code: int, is_night: bool = False) -> str:
         """Return a Home Assistant weather condition from code."""
