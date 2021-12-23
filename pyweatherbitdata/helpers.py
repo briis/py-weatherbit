@@ -90,6 +90,11 @@ class Conversions:
         """Return a UTC time from a timestamp."""
         return dt.datetime.utcfromtimestamp(timestamp).replace(tzinfo=UTC)
 
+    def utc_from_datestring(self, datestring: str) -> dt.datetime:
+        """Return a UTC time from a date string."""
+        date_obj = dt.datetime.strptime(datestring, "%Y-%m-%d")
+        return date_obj.astimezone(UTC)
+
     def alert_descriptions(self, alert_text: str):
         """Return alert description in English and Local language."""
         if alert_text is None:

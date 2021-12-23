@@ -110,7 +110,7 @@ class WeatherBitApiClient:
             beaufort: BeaufortDescription = self.calc.beaufort(base_data["wind_spd"])
             entity_data = ObservationDescription(
                 key=self.station_data.key,
-                utc_time=self.cnv.utc_from_timestamp(base_data["ts"]),
+                utc_time=self.cnv.utc_from_datestring(base_data["valid_date"]),
                 city_name=base_data["city_name"],
                 temp=self.cnv.temperature(base_data["temp"]),
                 app_temp=self.cnv.temperature(base_data["app_temp"]),
@@ -190,7 +190,7 @@ class WeatherBitApiClient:
             base_data = data["data"][0]
             entity_data = ForecastDescription(
                 key=self.station_data.key,
-                utc_time=self.cnv.utc_from_timestamp(base_data["ts"]),
+                utc_time=self.cnv.utc_from_datestring(base_data["valid_date"]),
                 city_name=data["city_name"],
                 temp=base_data["temp"],
                 max_temp=base_data["max_temp"],
@@ -221,7 +221,7 @@ class WeatherBitApiClient:
             for item in base_data:
                 forecast_data = ForecastDetailDescription(
                     key=self.station_data.key,
-                    utc_time=self.cnv.utc_from_timestamp(item["ts"]),
+                    utc_time=self.cnv.utc_from_datestring(item["valid_date"]),
                     temp=item["temp"],
                     max_temp=item["max_temp"],
                     min_temp=item["min_temp"],
