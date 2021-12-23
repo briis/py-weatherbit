@@ -66,7 +66,6 @@ class WeatherBitApiClient:
 
         self._station_data: BaseDataDescription = None
         self._is_night = False
-        _LOGGER.debug("Lat: %s Lon: %s", self.latitude, self.longitude)
 
     @property
     def station_data(self) -> BaseDataDescription:
