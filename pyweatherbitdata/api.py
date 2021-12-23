@@ -110,7 +110,7 @@ class WeatherBitApiClient:
             beaufort: BeaufortDescription = self.calc.beaufort(base_data["wind_spd"])
             entity_data = ObservationDescription(
                 key=self.station_data.key,
-                utc_time=self.cnv.utc_from_datestring(base_data["valid_date"]),
+                utc_time=self.cnv.utc_from_timestamp(base_data["ts"]),
                 city_name=base_data["city_name"],
                 temp=self.cnv.temperature(base_data["temp"]),
                 app_temp=self.cnv.temperature(base_data["app_temp"]),
