@@ -164,6 +164,7 @@ class WeatherBitApiClient:
                     expires_utc=item["expires_utc"],
                     onset_utc=item["onset_utc"],
                     uri=item["uri"],
+                    city_name=base_data["city_name"],
                     regions=item["regions"],
                 )
                 entity_data.alerts.append(alert_item)

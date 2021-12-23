@@ -32,6 +32,7 @@ class AlertDescription:
     expires_utc: str | None = None
     onset_utc: str | None = None
     uri: str | None = None
+    city_name: str | None = None
     regions: list | None = None
 
 
