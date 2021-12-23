@@ -92,7 +92,7 @@ class Conversions:
 
     def utc_from_datestring(self, datestring: str) -> dt.datetime:
         """Return a UTC time from a date string."""
-        date_obj = dt.datetime.strptime(datestring, "%Y-%m-%d")
+        date_obj = dt.datetime.strptime(f"{datestring} 12:00", "%Y-%m-%d %H:%M")
         return date_obj.astimezone(UTC)
 
     def alert_descriptions(self, alert_text: str):
