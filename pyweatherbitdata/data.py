@@ -139,6 +139,7 @@ class ForecastDescription:
     dewpt: float | None = None
     pop: int | None = None
     condition: str | None = None
+    alt_condition: str | None = None
     weather_icon: str | None = None
     weather_text: str | None = None
     vis: float | None = None

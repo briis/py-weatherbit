@@ -119,12 +119,13 @@ class Conversions:
         index = alert.find(":")
         return alert[index + 2:]
 
-    def condition_from_code(self, weather_code: int, is_night: bool = False) -> str:
+    def condition_from_code(self, weather_code: int, is_night: bool = False, alt_condition: bool = False) -> str:
         """Return a Home Assistant weather condition from code."""
         if weather_code is None:
             return None
         wcode = int(weather_code)
-        if is_night and wcode in [800]:
+        night_codes = [800, 801, 802] if alt_condition else [800]
+        if is_night and wcode in night_codes:
             wcode = wcode * 10
         return next(
             (k for k, v in CONDITION_CLASSES.items() if wcode in v),
