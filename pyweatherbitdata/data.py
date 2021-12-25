@@ -43,6 +43,7 @@ class ObservationDescription:
     key: str
 
     utc_time: str | None = None
+    observation_time: str | None = None
     city_name: str | None = None
     temp: float | None = None
     app_temp: float | None = None

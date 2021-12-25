@@ -95,6 +95,11 @@ class Conversions:
         date_obj = dt.datetime.strptime(f"{datestring} 12:00", "%Y-%m-%d %H:%M")
         return date_obj.astimezone(UTC)
 
+    def utc_from_datetimestring(self, datestring: str) -> dt.datetime:
+        """Return a UTC time from a datetime string."""
+        date_obj = dt.datetime.strptime(f"{datestring}", "%Y-%m-%d %H:%M")
+        return date_obj.astimezone(UTC)
+
     def alert_descriptions(self, alert_text: str):
         """Return alert description in English and Local language."""
         if alert_text is None:
