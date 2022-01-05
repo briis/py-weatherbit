@@ -86,8 +86,8 @@ class WeatherBitApiClient:
             key=base_data["station"],
             country_code=base_data["country_code"],
             city_name=base_data["city_name"],
-            latitude=base_data["lat"],
-            longitude=base_data["lon"],
+            latitude=self.latitude,
+            longitude=self.longitude,
             timezone=base_data["timezone"],
         )
         self._station_data = entity_data
