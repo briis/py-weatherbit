@@ -115,7 +115,7 @@ class WeatherBitApiClient:
                 city_name=base_data["city_name"],
                 temp=self.cnv.temperature(base_data["temp"]),
                 app_temp=self.cnv.temperature(base_data["app_temp"]),
-                humidity=base_data["rh"],
+                humidity=None if base_data["rh"] is None else int(base_data["rh"]),
                 pres=self.cnv.pressure(base_data["pres"]),
                 slp=self.cnv.pressure(base_data["slp"]),
                 clouds=base_data["clouds"],
