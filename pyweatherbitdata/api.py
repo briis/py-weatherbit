@@ -151,6 +151,7 @@ class WeatherBitApiClient:
             )
 
             alert_items = data["alerts"]
+            alert_keys = []
             alert_count = 0
             for item in alert_items:
                 en_alert, loc_alert = self.cnv.alert_descriptions(item["description"])
@@ -168,6 +169,13 @@ class WeatherBitApiClient:
                     city_name=base_data["city_name"],
                     regions=item["regions"],
                 )
+                # Filter out alert if already present
+                if alert_item.title in alert_keys and alert_item.severity in alert_keys and alert_item.ends_utc in alert_keys:
+                    continue
+                alert_keys.append(alert_item.title)
+                alert_keys.append(alert_item.severity)
+                alert_keys.append(alert_item.ends_utc)
+
                 entity_data.alerts.append(alert_item)
                 alert_count += 1
 
