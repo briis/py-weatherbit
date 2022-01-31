@@ -172,6 +172,7 @@ class WeatherBitApiClient:
                 # Filter out alert if already present
                 if alert_item.title in alert_keys and alert_item.severity in alert_keys and alert_item.ends_utc in alert_keys:
                     continue
+                # Store Keys for comparison
                 alert_keys.append(alert_item.title)
                 alert_keys.append(alert_item.severity)
                 alert_keys.append(alert_item.ends_utc)
