@@ -152,37 +152,37 @@ class WeatherBitApiClient:
                 is_night=self._is_night,
             )
 
-            alert_items = data["alerts"]
-            alert_keys = []
-            alert_count = 0
-            for item in alert_items:
-                en_alert, loc_alert = self.cnv.alert_descriptions(item["description"])
-                alert_item = AlertDescription(
-                    key=self.station_data.key,
-                    title=item["title"],
-                    en_description=en_alert,
-                    loc_description=loc_alert,
-                    severity=item["severity"],
-                    effective_utc=item["effective_utc"],
-                    ends_utc=item["ends_utc"],
-                    expires_utc=item["expires_utc"],
-                    onset_utc=item["onset_utc"],
-                    uri=item["uri"],
-                    city_name=base_data["city_name"],
-                    regions=item["regions"],
-                )
-                # Filter out alert if already present
-                if alert_item.title in alert_keys and alert_item.severity in alert_keys and alert_item.ends_utc in alert_keys:
-                    continue
-                # Store Keys for comparison
-                alert_keys.append(alert_item.title)
-                alert_keys.append(alert_item.severity)
-                alert_keys.append(alert_item.ends_utc)
+            # alert_items = data["alerts"]
+            # alert_keys = []
+            # alert_count = 0
+            # for item in alert_items:
+            #     en_alert, loc_alert = self.cnv.alert_descriptions(item["description"])
+            #     alert_item = AlertDescription(
+            #         key=self.station_data.key,
+            #         title=item["title"],
+            #         en_description=en_alert,
+            #         loc_description=loc_alert,
+            #         severity=item["severity"],
+            #         effective_utc=item["effective_utc"],
+            #         ends_utc=item["ends_utc"],
+            #         expires_utc=item["expires_utc"],
+            #         onset_utc=item["onset_utc"],
+            #         uri=item["uri"],
+            #         city_name=base_data["city_name"],
+            #         regions=item["regions"],
+            #     )
+            #     # Filter out alert if already present
+            #     if alert_item.title in alert_keys and alert_item.severity in alert_keys and alert_item.ends_utc in alert_keys:
+            #         continue
+            #     # Store Keys for comparison
+            #     alert_keys.append(alert_item.title)
+            #     alert_keys.append(alert_item.severity)
+            #     alert_keys.append(alert_item.ends_utc)
 
-                entity_data.alerts.append(alert_item)
-                alert_count += 1
+            #     entity_data.alerts.append(alert_item)
+            #     alert_count += 1
 
-            entity_data.alert_count = alert_count
+            # entity_data.alert_count = alert_count
             return entity_data
 
         except Exception as e:
