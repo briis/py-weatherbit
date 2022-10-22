@@ -99,7 +99,9 @@ class WeatherBitApiClient:
             raise NotInitialized("Station Data have not been initialized.") from None
 
         endpoint = f"{BASE_URL}/current?lat={self.latitude}&lon={self.longitude}&key={self.api_key}"
-        endpoint += f"&lang={self.language}&units=M&include=alerts"
+        endpoint += f"&lang={self.language}&units=M"
+        # NOTE: Alerts are disabled due to Free API is reduced to 50 calls per day
+        # endpoint += f"&lang={self.language}&units=M&include=alerts"
         data = await self._async_request("get", endpoint)
 
         if data is None:
